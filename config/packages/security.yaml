@@ -1,0 +1,36 @@
+security:
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\Usuario
+                property: email
+
+    password_hashers:
+        App\Entity\Usuario:
+            algorithm: auto
+            ignore_case: true
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: app_user_provider
+
+            form_login:
+                login_path: ctrl_login
+                check_path: ctrl_login
+                default_target_path: ctrl_home
+
+            logout:
+                path: ctrl_logout
+                target: ctrl_login
+
+    access_control:
+        - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^logout$, roles: PUBLIC_ACCESS }
+        - { path: ^/registrarse$, roles: PUBLIC_ACCESS }
+        - { path: ^/validar, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
