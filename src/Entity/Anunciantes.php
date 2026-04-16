@@ -39,7 +39,6 @@ class Anunciante
     #[ORM\OneToMany(mappedBy: 'anunciante', targetEntity: Conversacion::class, orphanRemoval: true)]
     private $conversaciones = [];
 
-    // Getters y Setters
     public function getId()
     {
         return $this->id;

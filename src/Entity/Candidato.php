@@ -29,7 +29,6 @@ class Candidato
     #[ORM\Column(length: 255)]
     private ?string $ciudad = null;
 
-    // 🔥 AHORA PERMITE NULL
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $cv_pdf = null;
 
@@ -90,7 +89,6 @@ class Candidato
         return $this;
     }
 
-    // 🔥 CORREGIDO: acepta null
     public function getCvPdf(): ?string
     {
         return $this->cv_pdf;
