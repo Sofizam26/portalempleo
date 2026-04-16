@@ -28,7 +28,6 @@ class RegistroPendiente
     #[ORM\Column(name: "fecha_creacion", type: "datetime")]
     private \DateTimeInterface $fechaCreacion;
 
-    // Datos candidato
     #[ORM\Column(type: "string", length: 100, nullable: true)]
     private ?string $nombre = null;
 
@@ -41,7 +40,6 @@ class RegistroPendiente
     #[ORM\Column(name: "cv_pdf", type: "string", length: 255, nullable: true)]
     private ?string $cvPdf = null;
 
-    // Datos anunciante
     #[ORM\Column(name: "nombre_anunciante", type: "string", length: 150, nullable: true)]
     private ?string $nombreAnunciante = null;
 
@@ -58,10 +56,6 @@ class RegistroPendiente
     {
         $this->fechaCreacion = new \DateTime();
     }
-
-    // ============================
-    // GETTERS Y SETTERS COMPLETOS
-    // ============================
 
     public function getId(): ?int
     {
@@ -123,7 +117,6 @@ class RegistroPendiente
         return $this;
     }
 
-    // CANDIDATO
     public function getNombre(): ?string
     {
         return $this->nombre;
@@ -168,7 +161,6 @@ class RegistroPendiente
         return $this;
     }
 
-    // ANUNCIANTE
     public function getNombreAnunciante(): ?string
     {
         return $this->nombreAnunciante;

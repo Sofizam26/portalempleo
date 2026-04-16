@@ -24,7 +24,7 @@ class RegistroCandidatoFormType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Contraseña',
-                'mapped' => false, // no se guarda directamente en la entidad
+                'mapped' => false,
             ])
             ->add('telefono', TelType::class, [
                 'label' => 'Teléfono',
@@ -34,7 +34,6 @@ class RegistroCandidatoFormType extends AbstractType
                 'label' => 'Ciudad',
                 'required' => false,
             ]);
-        // El CV podrías gestionarlo luego con otro formulario
     }
 
     public function configureOptions(OptionsResolver $resolver): void

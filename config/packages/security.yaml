@@ -22,7 +22,7 @@ security:
             form_login:
                 login_path: ctrl_login
                 check_path: ctrl_login
-                default_target_path: ctrl_home
+                default_target_path: app_home
 
             logout:
                 path: ctrl_logout

@@ -34,8 +34,6 @@ class RegistroService
         }
 
         $token = bin2hex(random_bytes(16));
-
-        // 🔥 AQUÍ EL CAMBIO IMPORTANTE
         $usuarioTemp = new Usuario();
         $hash = $this->passwordHasher->hashPassword($usuarioTemp, $passwordPlano);
 
@@ -63,8 +61,6 @@ class RegistroService
         }
 
         $token = bin2hex(random_bytes(16));
-
-        // 🔥 CAMBIO IMPORTANTE → usar hasher de Symfony
         $usuarioTemp = new Usuario();
         $hash = $this->passwordHasher->hashPassword($usuarioTemp, $passwordPlano);
 
