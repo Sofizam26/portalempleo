@@ -30,7 +30,8 @@ security:
 
     access_control:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
-        - { path: ^logout$, roles: PUBLIC_ACCESS }
-        - { path: ^/registrarse$, roles: PUBLIC_ACCESS }
+        - { path: ^/logout$, roles: PUBLIC_ACCESS }
+        - { path: ^/registro, roles: PUBLIC_ACCESS }
         - { path: ^/validar, roles: PUBLIC_ACCESS }
+
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
