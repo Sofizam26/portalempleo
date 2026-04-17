@@ -18,7 +18,7 @@ class HomeService
     {
         // Anunciantes veras todos los perfiles Candidatos
         if ($usuario->getRol() == 'anunciante') {
-            $candidatos = $this->candidatoRepository->findAll();
+            $candidatos = $this->candidatoRepository->buscarPerfilesHome();
 
             return [
                 'vista' => 'home/anunciante.html.twig',
@@ -28,7 +28,7 @@ class HomeService
         
         // Candidatos veran Ofertas de los anunciantes
         if ($usuario->getRol() == 'candidato') {
-            $ofertas = $this->ofertaRepository->findAll();
+            $ofertas = $this->ofertaRepository->buscarOfertasHome();
 
             return [
                 'vista' => 'home/candidato.html.twig',

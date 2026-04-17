@@ -17,6 +17,7 @@ class CandidatoRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.nombre', 'ASC')
+            ->setMaxResults(15)
             ->getQuery()
             ->getResult();
     }

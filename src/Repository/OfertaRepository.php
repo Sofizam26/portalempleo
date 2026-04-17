@@ -19,6 +19,7 @@ class OfertaRepository extends ServiceEntityRepository
             ->leftJoin('o.anunciante', 'a')
             ->addSelect('a')
             ->orderBy('o.fechaPublicacion', 'DESC')
+            ->setMaxResults(12)
             ->getQuery()
             ->getResult();
     }
