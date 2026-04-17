@@ -6,8 +6,6 @@ use App\Repository\CandidatoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: CandidatoRepository::class)]
 #[ORM\Table(name: 'candidatos')]
@@ -122,12 +120,7 @@ class Candidato
 
     public function removePostulacione(Postulacion $postulacione): self
     {
-        if ($this->postulaciones->removeElement($postulacione)) {
-            if ($postulacione->getCandidato() === $this) {
-                $postulacione->setCandidato(null);
-            }
-        }
-
+        $this->postulaciones->removeElement($postulacione);
         return $this;
     }
 }
