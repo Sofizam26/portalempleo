@@ -22,7 +22,7 @@ security:
             form_login:
                 login_path: ctrl_login
                 check_path: ctrl_login
-                default_target_path: ctrl_home
+                default_target_path: app_home
 
             logout:
                 path: ctrl_logout
@@ -30,7 +30,8 @@ security:
 
     access_control:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
-        - { path: ^logout$, roles: PUBLIC_ACCESS }
-        - { path: ^/registrarse$, roles: PUBLIC_ACCESS }
+        - { path: ^/logout$, roles: PUBLIC_ACCESS }
+        - { path: ^/registro, roles: PUBLIC_ACCESS }
         - { path: ^/validar, roles: PUBLIC_ACCESS }
+
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

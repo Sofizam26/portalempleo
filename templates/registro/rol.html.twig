@@ -1,0 +1,19 @@
+{% extends 'registro/base.html.twig' %}
+
+{% block title %}Elegir rol{% endblock %}
+
+{% block contenido %}
+<h2>¿Cómo quieres registrarte?</h2>
+
+<div>
+    <a href="{{ path('registro_candidato') }}">Soy candidato</a>
+</div>
+
+<div>
+    <a href="{{ path('registro_anunciante') }}">Soy anunciante</a>
+</div>
+
+<div style="margin-top:20px;">
+    <a href="{{ path('ctrl_login') }}">Ir al login</a>
+</div>
+{% endblock %}

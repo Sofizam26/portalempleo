@@ -1,0 +1,28 @@
+{% extends 'registro/base.html.twig' %}
+
+{% block title %}Registro de candidato{% endblock %}
+
+{% block contenido %}
+<h2>Crear cuenta de candidato</h2>
+
+{% if error %}
+    <div style="color:red;">{{ error }}</div>
+{% endif %}
+{% if mensaje %}
+    <div style="color:green;">{{ mensaje }}</div>
+{% endif %}
+
+{{ form_start(form) }}
+
+    {{ form_row(form.nombre) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.telefono) }}
+    {{ form_row(form.ciudad) }}
+
+    <button type="submit">Registrarse</button>
+
+{{ form_end(form) }}
+
+<a href="{{ path('registro_rol') }}">Volver</a>
+{% endblock %}

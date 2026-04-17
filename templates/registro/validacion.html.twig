@@ -1,0 +1,17 @@
+{% extends 'registro/base.html.twig' %}
+
+{% block title %}Validación de cuenta{% endblock %}
+
+{% block contenido %}
+<h2>Validación de registro</h2>
+
+{% if error %}
+    <div style="color:red;">{{ error }}</div>
+{% endif %}
+
+{% if mensaje %}
+    <div style="color:green;">{{ mensaje }}</div>
+{% endif %}
+
+<a href="{{ path('ctrl_login') }}">Ir al login</a>
+{% endblock %}

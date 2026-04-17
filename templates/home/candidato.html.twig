@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home candidato{% endblock %}
+
+{% block body %}
+    <h1>Home de candidato</h1>
+
+    {% for oferta in ofertas %}
+        <h3>{{ oferta.titulo }}</h3>
+        <p>{{ oferta.descripcion }}</p>
+        <p>{{ oferta.ciudad }}</p>
+    {% else %}
+        <p>No hay ofertas.</p>
+    {% endfor %}
+{% endblock %}
