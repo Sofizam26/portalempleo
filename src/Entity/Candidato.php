@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CandidatoRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CandidatoRepository::class)]
@@ -13,114 +11,47 @@ class Candidato
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: "id_candidato", type: "integer")]
-    private ?int $id = null;
+    #[ORM\Column(name: 'id_conversacion', type: 'integer')]
+    private $id;
 
-    #[ORM\OneToOne(inversedBy: 'candidato', targetEntity: Usuario::class)]
-    #[ORM\JoinColumn(name: 'id_usuario', referencedColumnName: 'id_usuario', nullable: false, onDelete: 'CASCADE')]
-    private ?Usuario $usuario = null;
+    #[ORM\ManyToOne(targetEntity: Candidato::class, inversedBy: 'conversaciones')]
+    #[ORM\JoinColumn(name: 'id_candidato', referencedColumnName: 'id_candidato', nullable: false, onDelete: 'CASCADE')]
+    private $candidato;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nombre = null;
+    #[ORM\ManyToOne(targetEntity: Anunciante::class, inversedBy: 'conversaciones')]
+    #[ORM\JoinColumn(name: 'id_anunciante', referencedColumnName: 'id_anunciante', nullable: false, onDelete: 'CASCADE')]
+    private $anunciante;
 
-    #[ORM\Column(length: 20)]
-    private ?string $telefono = null;
+    #[ORM\ManyToOne(targetEntity: Oferta::class)]
+    #[ORM\JoinColumn(name: 'id_oferta', referencedColumnName: 'id_oferta', nullable: true, onDelete: 'SET NULL')]
+    private $oferta;
 
-    #[ORM\Column(length: 255)]
-    private ?string $ciudad = null;
+    #[ORM\Column(name: 'fecha_creacion', type: 'datetime')]
+    private $fecha_creacion = [];
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $cv_pdf = null;
+    #[ORM\OneToMany(mappedBy: 'conversacion', targetEntity: Mensaje::class, orphanRemoval: true)]
+    private $mensajes = [];
 
-    #[ORM\OneToMany(mappedBy: 'candidato', targetEntity: Postulacion::class, orphanRemoval: true)]
-    private Collection $postulaciones;
-
-    public function __construct()
+    // Getters y Setters
+    public function getId() { return $this->id; }
+    public function getCandidato() { return $this->candidato; }
+    public function setCandidato(Candidato $candidato)
     {
-        $this->postulaciones = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getUsuario(): ?Usuario
-    {
-        return $this->usuario;
-    }
-
-    public function setUsuario(Usuario $usuario): self
-    {
-        $this->usuario = $usuario;
+        $this->candidato = $candidato;
         return $this;
     }
-
-    public function getNombre(): ?string
+    public function getAnunciante() { return $this->anunciante; }
+    public function setAnunciante(Anunciante $anunciante)
     {
-        return $this->nombre;
-    }
-
-    public function setNombre(string $nombre): self
-    {
-        $this->nombre = $nombre;
+        $this->anunciante = $anunciante;
         return $this;
     }
-
-    public function getTelefono(): ?string
+    public function getOferta() { return $this->oferta; }
+    public function setOferta(?Oferta $oferta)
     {
-        return $this->telefono;
-    }
-
-    public function setTelefono(string $telefono): self
-    {
-        $this->telefono = $telefono;
+        $this->oferta = $oferta;
         return $this;
     }
-
-    public function getCiudad(): ?string
-    {
-        return $this->ciudad;
-    }
-
-    public function setCiudad(string $ciudad): self
-    {
-        $this->ciudad = $ciudad;
-        return $this;
-    }
-
-    public function getCvPdf(): ?string
-    {
-        return $this->cv_pdf;
-    }
-
-    public function setCvPdf(?string $cv_pdf): self
-    {
-        $this->cv_pdf = $cv_pdf;
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Postulacion>
-     */
-    public function getPostulaciones(): Collection
-    {
-        return $this->postulaciones;
-    }
-
-    public function addPostulacione(Postulacion $postulacione): self
-    {
-        if (!$this->postulaciones->contains($postulacione)) {
-            $this->postulaciones->add($postulacione);
-            $postulacione->setCandidato($this);
-        }
-
-        return $this;
-    }
-
-    public function removePostulacione(Postulacion $postulacione): self
-    {
-        $this->postulaciones->removeElement($postulacione);
-        return $this;
-    }
+    public function getFechaCreacion() { return $this->fecha_creacion; }
+    public function getMensajes() { return $this->mensajes; }
 }
