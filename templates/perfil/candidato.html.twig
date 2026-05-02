@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Perfil de candidato{% endblock %}
+
+{% block body %}
+    <h1> {{perfil.nombre}} </h1>
+
+    <p><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
+    <p><strong>Telefono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
+
+    {% if perfil.cvPdf %}
+        <p> <strong>Cv: </strong> {{ perfil.cvPdf }} </p>
+    {% endif %}
+{% endblock %}

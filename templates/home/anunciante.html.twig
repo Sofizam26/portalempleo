@@ -6,7 +6,11 @@
     <h1>Home de anunciante</h1>
 
     {% for candidato in candidatos %}
-        <p>{{ candidato.nombre }}</p>
+        <p>
+            <a href="{{ path('app_perfilCandidato', {id: candidato.id}) }}">
+                {{ candidato.nombre }}
+            </a>
+        </p>
     {% else %}
         <p>No hay candidatos.</p>
     {% endfor %}

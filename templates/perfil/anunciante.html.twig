@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Perfil de anunciante{% endblock %}
+
+{% block body %}
+    <h1> {{perfil.nombreAnunciante}} </h1>
+
+    <p><strong>Tipo: </strong> {{ perfil.tipo ?: 'No indicado'}} </p>
+    <p><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
+    <p><strong>Descripcion: </strong> {{ perfil.descripcion ?: 'Sin descripcion'}} </p>
+
+    {% if perfil.sitioWeb %}
+        <p> <strong>Website: </strong> 
+            <a href="{{ perfil.sitioWeb }}" target="_blank" rel="noopener noreferrer">
+                {{ perfil.sitioWeb }}
+            </a>
+        </p>
+    {%endif%}
+{% endblock %}

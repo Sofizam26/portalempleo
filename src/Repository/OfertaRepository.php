@@ -18,7 +18,7 @@ class OfertaRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('o')
             ->leftJoin('o.anunciante', 'a')
             ->addSelect('a')
-            ->orderBy('o.fechaPublicacion', 'DESC')
+            ->orderBy('o.fecha_publicacion', 'DESC')
             ->getQuery()
             ->getResult();
     }

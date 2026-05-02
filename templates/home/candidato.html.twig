@@ -9,6 +9,15 @@
         <h3>{{ oferta.titulo }}</h3>
         <p>{{ oferta.descripcion }}</p>
         <p>{{ oferta.ciudad }}</p>
+
+        {% if oferta.anunciante is not null %}
+            <p>
+                Anunciante: 
+                <a href="{{ path('app_perfilAnunciante', {id: oferta.anunciante.id}) }}">
+                {{ oferta.anunciante.nombre }}
+                </a>
+            </p>
+        {% endif %}
     {% else %}
         <p>No hay ofertas.</p>
     {% endfor %}
