@@ -3,15 +3,24 @@
 {% block title %}Home anunciante{% endblock %}
 
 {% block body %}
-    <h1>Home de anunciante</h1>
+<div class=container mt-4>
+    <h3 class="mb-4">Home de anunciante</h3>
 
     {% for candidato in candidatos %}
-        <p>
-            <a href="{{ path('app_perfilCandidato', {id: candidato.id}) }}">
-                {{ candidato.nombre }}
-            </a>
-        </p>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="{{ path('app_perfilCandidato', {id: candidato.id}) }}">
+                    {{ candidato.nombre }}
+                </a>
+                <hr>
+                <p class="card-text">Ciudad: {{ candidato.ciudad ?: 'No indicada'}} </p>
+                <p class="card-text">Telefono {{ candidato.telefono ?: 'No indicado'}} </p>
+            </h5>
+        </div>
+    </div>    
     {% else %}
         <p>No hay candidatos.</p>
     {% endfor %}
+</div>
 {% endblock %}
