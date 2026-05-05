@@ -3,17 +3,21 @@
 {% block title %}Perfil de anunciante{% endblock %}
 
 {% block body %}
-    <h1> {{perfil.nombreAnunciante}} </h1>
-
-    <p><strong>Tipo: </strong> {{ perfil.tipo ?: 'No indicado'}} </p>
-    <p><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
-    <p><strong>Descripcion: </strong> {{ perfil.descripcion ?: 'Sin descripcion'}} </p>
-
-    {% if perfil.sitioWeb %}
-        <p> <strong>Website: </strong> 
-            <a href="{{ perfil.sitioWeb }}" target="_blank" rel="noopener noreferrer">
-                {{ perfil.sitioWeb }}
-            </a>
-        </p>
-    {%endif%}
+<div class="container mt-4">
+    <h3 class="mb-4"> {{perfil.nombreAnunciante}} </h3>
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text"><strong>Tipo: </strong> {{ perfil.tipo ?: 'No indicado'}} </p>
+            <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
+            <p class="card-text"><strong>Descripcion: </strong> {{ perfil.descripcion ?: 'Sin descripcion'}} </p>
+            {% if perfil.sitioWeb %}
+                <p class="card-text"> <strong>Website: </strong> 
+                    <a href="{{ perfil.sitioWeb }}" target="_blank" rel="noopener noreferrer">
+                        {{ perfil.sitioWeb }}
+                    </a>
+                </p>
+            {%endif%}
+        </div>
+    </div>
+</div>
 {% endblock %}
