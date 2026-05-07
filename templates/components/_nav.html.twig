@@ -1,8 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand fw-semibold" href="{{ path('app_home') }}">
-            Portal Empleo
-        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
                 aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,6 +9,7 @@
         <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% for item in menu.items %}
+                    <li class="nav-item">
                         <a class="nav-link {{ item.active ? 'active fw-semibold' : '' }}"
                            href="{{ path(item.route) }}">
                             {% if item.icon == 'home' %}
@@ -28,7 +26,7 @@
             </ul>
 
             <span class="navbar-text text-light">
-                {{ menu.usuario.email }} - {{ menu.rol|capitalize }}
+                {{ menu.usuario.email }} 
             </span>
         </div>
     </div>

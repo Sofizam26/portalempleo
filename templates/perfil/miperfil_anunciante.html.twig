@@ -5,15 +5,13 @@
 {% block body %}
     {{ render(controller('App\\Controller\\NavController::component')) }}
 <div class="container mt-4">
-    <h4> perfil.nombre </h4>
+    <h4>{{ perfil.nombreAnunciante }}</h4>
     <div class="card">
         <div class="card-body">
-            <p><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
-            <p><strong>Telefono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
-        
-            {% if perfil.cvPdf %}
-                <p class="card-text"> <strong>Cv: </strong> {{ perfil.cvPdf }} </p>
-            {% endif%}
+            <p><strong>Descripción: </strong> {{ perfil.descripcion ?: 'No indicada'}} </p>
+            <p><strong>Tipo: </strong> {{ perfil.tipo ?: 'No indicada'}} </p>
+            <p><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicado'}} </p>
+            <p><strong>Sitio web: </strong> <a href="{{ perfil.sitioWeb }}">{{ perfil.sitioWeb ?: 'No indicado'}} </a></p>
         </div>
     </div>
 </div>

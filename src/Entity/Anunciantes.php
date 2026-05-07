@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\AnuncianteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -33,11 +36,16 @@ class Anunciante
     private ?string $ciudad = null;
 
     #[ORM\OneToMany(mappedBy: 'anunciante', targetEntity: Oferta::class, orphanRemoval: true)]
-    private array $ofertas = [];
+    private Collection $ofertas;
 
     #[ORM\OneToMany(mappedBy: 'anunciante', targetEntity: Conversacion::class, orphanRemoval: true)]
-    private array $conversaciones = [];
+    private Collection $conversaciones;
 
+    public function __construct()
+    {
+        $this->ofertas = new ArrayCollection();
+        $this->conversaciones = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -109,12 +117,12 @@ class Anunciante
         return $this;
     }
 
-    public function getOfertas(): array
+    public function getOfertas(): Collection
     {
         return $this->ofertas;
     }
 
-    public function getConversaciones(): array
+    public function getConversaciones(): Collection
     {
         return $this->conversaciones;
     }
