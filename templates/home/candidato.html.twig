@@ -3,13 +3,28 @@
 {% block title %}Home candidato{% endblock %}
 
 {% block body %}
-    <h1>Home de candidato</h1>
+{{ render(controller('App\\Controller\\NavController::component')) }}
+<div class="container mt-4">
+    <h3 class="mb-4">Home de candidato</h3>
 
     {% for oferta in ofertas %}
-        <h3>{{ oferta.titulo }}</h3>
-        <p>{{ oferta.descripcion }}</p>
-        <p>{{ oferta.ciudad }}</p>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h3 class="card-tittle">{{ oferta.titulo }}</h3>
+            <hr>
+            <p class="card-text">{{ oferta.descripcion }}</p>
+            <p class="text">{{ oferta.ciudad }}</p>
+            {% if oferta.anunciante is not null %}
+                <p class="card-text"> Anunciante: 
+                    <a href="{{ path('app_perfilAnunciante', {id: oferta.anunciante.id}) }}">
+                    {{ oferta.anunciante.nombre }}
+                    </a>
+                </p>
+            {% endif %}
+        </div>
+    </div>
     {% else %}
         <p>No hay ofertas.</p>
     {% endfor %}
+</div>
 {% endblock %}
