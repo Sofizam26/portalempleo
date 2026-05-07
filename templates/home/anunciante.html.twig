@@ -3,6 +3,7 @@
 {% block title %}Home anunciante{% endblock %}
 
 {% block body %}
+{{ render(controller('App\\Controller\\NavController::component')) }}
 <div class=container mt-4>
     <h3 class="mb-4">Home de anunciante</h3>
 
