@@ -37,7 +37,10 @@ class PerfilService
 
             return [
                 'vista' => 'perfil/miperfil_anunciante.html.twig',
-                'parametros' => ['perfil' => $perfil]
+                'parametros' => [
+                    'perfil' => $perfil,
+                    'ofertas' => $perfil->getOfertas()
+                    ]
             ];
         }
 
@@ -68,7 +71,10 @@ class PerfilService
 
         return [
             'vista' => 'perfil/anunciante.html.twig',
-            'parametros' => ['perfil' => $perfil]
+            'parametros' => [
+                'perfil' => $perfil,
+                'ofertas' => $perfil->getOfertas()
+                ]
         ];
     }
 }
