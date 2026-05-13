@@ -17,7 +17,7 @@
             {% if oferta.anunciante is not null %}
                 <p class="card-text"> Anunciante: 
                     <a href="{{ path('app_perfilAnunciante', {id: oferta.anunciante.id}) }}">
-                    {{ oferta.anunciante.nombre }}
+                    {{ oferta.anunciante.nombreAnunciante }}
                     </a>
                 </p>
             {% endif %}

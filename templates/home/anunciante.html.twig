@@ -10,6 +10,14 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPublicarOferta"> Publicar oferta </button>
     </div>
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success"> {{ message }} </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-success"> {{ message }} </div>
+    {% endfor %}
+
     {% for candidato in candidatos %}
     <div class="card mb-3">
         <div class="card-body">
@@ -59,7 +67,7 @@
                         <input type="text" name="ciudad" id="ciudad" class="form-control" required>
                     </div>
                 </div>
-                <div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Publicar</button>
                 </div>
