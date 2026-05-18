@@ -5,6 +5,18 @@
 {% block body %}
     {{ render(controller('App\\Controller\\NavController::component')) }}
 <div class="container mt-4">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-3">
+        {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger mt-3">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h4>{{ perfil.nombreAnunciante }}</h4>
     <div class="card">
         <div class="card-body">

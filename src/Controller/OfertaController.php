@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Oferta;
+use App\Repository\OfertaRepository;
 use App\Service\OfertaService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +35,56 @@ class OfertaController extends AbstractController
         }
         
         return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/oferta/{id}/editar', name: 'app_editar_oferta', methods:['POST'])]
+    public function editar(int $id, Request $request, OfertaRepository $ofertaRepository, OfertaService $ofertaService): Response
+    {
+        $usuario = $this->getUser();
+
+        if (!$usuario) {
+            return $this->redirectToRoute('ctrl_login');
+        }
+
+        $oferta = $ofertaRepository->find($id);
+
+        if (!$oferta) {
+            throw $this->createNotFoundException('Oferta no encontrada.');
+        }
+
+        try {
+            $ofertaService->editarOferta($oferta, $usuario, $request->request->all());
+            $this->addFlash('success', 'Oferta actualizada correctamente.');
+        } catch (\LogicException $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_miperfil');
+    }
+
+    #[Route('/oferta/{id}/eliminar', name: 'app_eliminar_oferta', methods: ['POST'])]
+    public function eliminar(int $id, OfertaRepository $ofertaRepository, OfertaService $ofertaService): Response 
+    {
+        $usuario = $this->getUser();
+
+        if (!$usuario) {
+            return $this->redirectToRoute('ctrl_login');
+        }
+
+        $oferta = $ofertaRepository->find($id);
+
+        if (!$oferta) {
+            throw $this->createNotFoundException('Oferta no encontrada.');
+        }
+
+        try {
+            $ofertaService->eliminarOferta($oferta, $usuario);
+            $this->addFlash('success', 'Oferta eliminada correctamente.');
+        } catch (\LogicException $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_miperfil');
     }
 }
 ?>

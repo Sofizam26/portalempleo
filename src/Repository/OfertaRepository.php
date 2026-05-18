@@ -22,4 +22,22 @@ class OfertaRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function guardar(Oferta $oferta, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($oferta);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function eliminar(Oferta $oferta, bool $flush = true): void
+    {
+        $this->getEntityManager()->remove($oferta);
+
+        if($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }
