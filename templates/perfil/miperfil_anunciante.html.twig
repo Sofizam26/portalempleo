@@ -17,7 +17,7 @@
         </div>
     {% endfor %}
 
-    <h4>{{ perfil.nombreAnunciante }}</h4>
+    <h3>{{ perfil.nombreAnunciante }}</h3>
     <div class="card">
         <div class="card-body">
             <p><strong>Descripción: </strong> {{ perfil.descripcion ?: 'No indicada'}} </p>
@@ -29,9 +29,10 @@
     <hr>
     <h5 class="mb-3">Ofertas Publicadas</h5>
     {% for oferta in ofertas %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h6> {{ oferta.titulo }}</h6>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5> {{ oferta.titulo }}</h5>
+            <hr>
                 <p>{{ oferta.descripcion|nl2br }}</p>
                 <p><strong>Ciudad: </strong>{{ oferta.ciudad ?: 'No indicada'}}</p>
                 <p><strong>Tipo de contrato: </strong>{{ oferta.tipoContrato ?: 'No indicado'}}</p>
@@ -49,7 +50,7 @@
                     <form method="POST" action="{{ path('app_editar_oferta', {id: oferta.id}) }}">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalEditarOfertaLabel{{ oferta.id }}">Editar oferta</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
@@ -58,7 +59,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="descripcion{{ oferta.id }}" class="form-label">Descripción</label>
-                                <textarea name="descripcion" id="descripcion{{ oferta.id }}" class="form-control" rows="4"> {{ oferta.descripcion }} </textarea>
+                                <textarea name="descripcion" id="descripcion{{ oferta.id }}" class="form-control" rows="4">{{ oferta.descripcion }}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="salario{{ oferta.id }}" class="form-label">Salario</label>
@@ -87,7 +88,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalEliminarOfertaLabel{{ oferta.id }}">Advertencia</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                 
                     <div class="modal-body">
@@ -96,9 +97,7 @@
                     </div>
                 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Cancelar
-                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     
                         <form method="POST" action="{{ path('app_eliminar_oferta', {id: oferta.id}) }}">
                             <button type="submit" class="btn btn-danger">Confirmar</button>

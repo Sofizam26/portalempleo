@@ -5,7 +5,7 @@
 {% block body %}
     {{ render(controller('App\\Controller\\NavController::component')) }}
 <div class="container mt-4">
-    <h4 class="mb-4"> {{perfil.nombre}} </h4>
+    <h3 class="mb-4"> {{perfil.nombre}} </h3>
     <div class="card">
         <div class="card-body">
             <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
