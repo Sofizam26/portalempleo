@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\Registro;
 
 use App\Entity\RegistroPendiente;
