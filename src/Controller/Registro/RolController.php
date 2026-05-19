@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\Registro;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
