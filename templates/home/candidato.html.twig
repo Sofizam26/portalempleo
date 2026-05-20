@@ -8,8 +8,10 @@
     <h3 class="mb-4">Últimas ofertas</h3>
 
     {% for oferta in ofertas %}
+    {%set fotoPerfil = oferta.anunciante.usuario.fotoPerfil is not empty ? asset(oferta.anunciante.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
     <div class="card mb-3">
         <div class="card-body">
+            <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
             <h5 class="card-tittle">{{ oferta.titulo }}</h5>
             <hr>
             <p class="card-text">{{ oferta.descripcion|nl2br }}</p>

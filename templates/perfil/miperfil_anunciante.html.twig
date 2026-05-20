@@ -4,6 +4,7 @@
 
 {% block body %}
     {{ render(controller('App\\Controller\\NavController::component')) }}
+    {% set fotoPerfil = perfil.usuario.fotoPerfil is not empty ? asset(perfil.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
 <div class="container mt-4">
     {% for message in app.flashes('success') %}
         <div class="alert alert-success mt-3">
@@ -17,6 +18,7 @@
         </div>
     {% endfor %}
 
+    <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
     <h3>{{ perfil.nombreAnunciante }}</h3>
     <div class="card">
         <div class="card-body">
