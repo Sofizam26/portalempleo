@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h2>Mis conversaciones</h2>
+
+<ul>
+    {% for conversacion in conversaciones %}
+        <li>
+            <a href="{{ path('ver_conversacion', { id: conversacion.id }) }}">
+                Conversación con 
+                {% if app.user.rol == 'candidato' %}
+                    {{ conversacion.anunciante.nombre }}
+                {% else %}
+                    {{ conversacion.candidato.nombre }}
+                {% endif %}
+
+                {% set ultimo = conversacion.getUltimoMensaje() %}
+                {% if ultimo %}
+                    — Último mensaje: "{{ ultimo.mensaje|slice(0, 30) }}..."
+                {% endif %}
+            </a>
+        </li>
+    {% else %}
+        <li>No tienes conversaciones.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
