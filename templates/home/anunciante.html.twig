@@ -3,79 +3,79 @@
 {% block title %}Home anunciante{% endblock %}
 
 {% block body %}
-{{ render(controller('App\\Controller\\NavController::component')) }}
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="mb-4">Home de anunciante</h3>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPublicarOferta"> Publicar oferta </button>
-    </div>
+    {{ render(controller('App\\Controller\\NavController::component')) }}
+    
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-4">Home de anunciante</h3>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPublicarOferta"> Publicar oferta </button>
+        </div>
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success"> {{ message }} </div>
-    {% endfor %}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success"> {{ message }} </div>
+        {% endfor %}
 
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-success"> {{ message }} </div>
-    {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-success"> {{ message }} </div>
+        {% endfor %}
 
-    {% for candidato in candidatos %}
+        {% for candidato in candidatos %}
 
-    {% set fotoPerfil = candidato.usuario.fotoPerfil is not empty ? asset(candidato.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
-    <div class="card mb-3">
-        <div class="card-body">
-            <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
-            <h5 class="card-title">
-                <a href="{{ path('app_perfilCandidato', {id: candidato.id}) }}">
-                    {{ candidato.nombre }}
-                </a>
-                <hr>
+        {% set fotoPerfil = candidato.usuario.fotoPerfil is not empty ? asset(candidato.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
+        <div class="card mb-3">
+            <div class="card-header">
+                <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 70px; height: 70px; object-fit: cover">
+                <h5 class="card-title mt-2"> <a href="{{ path('app_perfilCandidato', {id: candidato.id}) }}">
+                        {{ candidato.nombre }} </a>
+                </h5>
+            </div>
+            <div class="card-body">
                 <p class="card-text">Ciudad: {{ candidato.ciudad ?: 'No indicada'}} </p>
                 <p class="card-text">Teléfono: {{ candidato.telefono ?: 'No indicado'}} </p>
-            </h5>
-        </div>
-    </div>    
-    {% else %}
-        <p>No hay candidatos.</p>
-    {% endfor %}
-</div>
+            </div>
+        </div>    
+        {% else %}
+            <p>No hay candidatos.</p>
+        {% endfor %}
+    </div>
 
-<div class="modal fade" id="modalPublicarOferta" tabindex="-1" aria-labelledby="modalPublicarOfertaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content"> 
-            <form method='POST' action="{{ path('app_publicar_oferta') }}">
-                <div class="modal-header"> 
-                    <h5 class="modal-tittle" id="modalPublicarOfertaLabel"> Publicar oferta </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+    <div class="modal fade" id="modalPublicarOferta" tabindex="-1" aria-labelledby="modalPublicarOfertaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content"> 
+                <form method='POST' action="{{ path('app_publicar_oferta') }}">
+                    <div class="modal-header"> 
+                        <h5 class="modal-tittle" id="modalPublicarOfertaLabel"> Publicar oferta </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <div class="modal-body">
-                    <div class=mb-3>
-                        <label for="titulo" class="form-label"> Titulo </label>
-                        <input type="text" name="titulo" id="titulo" class="form-control" required>
+                    <div class="modal-body">
+                        <div class=mb-3>
+                            <label for="titulo" class="form-label"> Titulo </label>
+                            <input type="text" name="titulo" id="titulo" class="form-control" required>
+                        </div>
+                        <div class=mb-3>
+                            <label for="descripcion" class="form-label"> Descripcion </label>
+                            <textarea name="descripcion" id="descripcion" class="form-control" rows="4"></textarea>
+                        </div>
+                        <div class=mb-3>
+                            <label for="salario" class="form-label"> Salario </label>
+                            <input type="number" name="salario" id="salario" class="form-control" required>
+                        </div>
+                        <div class=mb-3>
+                            <label for="tipo_contrato" class="form-label"> Tipo de contrato </label>
+                            <input type="text" name="tipo_contrato" id="tipo_contrato" class="form-control" required>
+                        </div>
+                        <div class=mb-3>
+                            <label for="ciudad" class="form-label"> Ciudad </label>
+                            <input type="text" name="ciudad" id="ciudad" class="form-control" required>
+                        </div>
                     </div>
-                    <div class=mb-3>
-                        <label for="descripcion" class="form-label"> Descripcion </label>
-                        <textarea name="descripcion" id="descripcion" class="form-control" rows="4"></textarea>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Publicar</button>
                     </div>
-                    <div class=mb-3>
-                        <label for="salario" class="form-label"> Salario </label>
-                        <input type="number" name="salario" id="salario" class="form-control" required>
-                    </div>
-                    <div class=mb-3>
-                        <label for="tipo_contrato" class="form-label"> Tipo de contrato </label>
-                        <input type="text" name="tipo_contrato" id="tipo_contrato" class="form-control" required>
-                    </div>
-                    <div class=mb-3>
-                        <label for="ciudad" class="form-label"> Ciudad </label>
-                        <input type="text" name="ciudad" id="ciudad" class="form-control" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Publicar</button>
-                </div>
-            </form>
-        </div> 
-    </diV>
-</div>
+                </form>
+            </div> 
+        </diV>
+    </div>
 {% endblock %}
