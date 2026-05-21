@@ -10,25 +10,25 @@
 
         {% for oferta in ofertas %}
         {%set fotoPerfil = oferta.anunciante.usuario.fotoPerfil is not empty ? asset(oferta.anunciante.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
-        <div class="card mb-3">
-            <div class="card-header">
-                {# <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 70px; height: 70px; object-fit: cover"> #}
-                <h5 class="card-tittle mt-2">{{ oferta.titulo }}</h5>
+            <div class="card mb-3">
+                <div class="card-header">
+                    {# <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 70px; height: 70px; object-fit: cover"> #}
+                    <h5 class="card-tittle mt-2">{{ oferta.titulo }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ oferta.descripcion|nl2br }}</p>
+                    <p class="text">Ciudad: {{ oferta.ciudad }}</p>
+                    <p class="text">Salario: {{ oferta.salario }}</p>
+                    <p class="text">Tipo de contrato: {{ oferta.tipoContrato }}</p>
+                    {% if oferta.anunciante is not null %}
+                        <p class="card-text"> Anunciante: 
+                            <a href="{{ path('app_perfilAnunciante', {id: oferta.anunciante.id}) }}">
+                            {{ oferta.anunciante.nombreAnunciante }}
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="card-body">
-                <p class="card-text">{{ oferta.descripcion|nl2br }}</p>
-                <p class="text">Ciudad: {{ oferta.ciudad }}</p>
-                <p class="text">Salario: {{ oferta.salario }}</p>
-                <p class="text">Tipo de contrato: {{ oferta.tipoContrato }}</p>
-                {% if oferta.anunciante is not null %}
-                    <p class="card-text"> Anunciante: 
-                        <a href="{{ path('app_perfilAnunciante', {id: oferta.anunciante.id}) }}">
-                        {{ oferta.anunciante.nombreAnunciante }}
-                        </a>
-                    </p>
-                {% endif %}
-            </div>
-        </div>
         {% else %}
             <p>No hay ofertas.</p>
         {% endfor %}

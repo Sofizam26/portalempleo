@@ -20,20 +20,19 @@
         {% endfor %}
 
         {% for candidato in candidatos %}
-
         {% set fotoPerfil = candidato.usuario.fotoPerfil is not empty ? asset(candidato.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
-        <div class="card mb-3">
-            <div class="card-header">
-                <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 70px; height: 70px; object-fit: cover">
-                <h5 class="card-title mt-2"> <a href="{{ path('app_perfilCandidato', {id: candidato.id}) }}">
-                        {{ candidato.nombre }} </a>
-                </h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text">Ciudad: {{ candidato.ciudad ?: 'No indicada'}} </p>
-                <p class="card-text">Teléfono: {{ candidato.telefono ?: 'No indicado'}} </p>
-            </div>
-        </div>    
+            <div class="card mb-3">
+                <div class="card-header">
+                    <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 70px; height: 70px; object-fit: cover">
+                    <h5 class="card-title mt-2"> <a href="{{ path('app_perfilCandidato', {id: candidato.id}) }}">
+                            {{ candidato.nombre }} </a>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Ciudad: {{ candidato.ciudad ?: 'No indicada'}} </p>
+                    <p class="card-text">Teléfono: {{ candidato.telefono ?: 'No indicado'}} </p>
+                </div>
+            </div>    
         {% else %}
             <p>No hay candidatos.</p>
         {% endfor %}
