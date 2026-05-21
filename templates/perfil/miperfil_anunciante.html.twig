@@ -34,10 +34,10 @@
         <hr>
         <h5 class="mb-3">Ofertas Publicadas</h5>
         {% for oferta in ofertas %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5> {{ oferta.titulo }}</h5>
-                <hr>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5> {{ oferta.titulo }}</h5>
+                    <hr>
                     <p>{{ oferta.descripcion|nl2br }}</p>
                     <p><strong>Ciudad: </strong>{{ oferta.ciudad ?: 'No indicada'}}</p>
                     <p><strong>Tipo de contrato: </strong>{{ oferta.tipoContrato ?: 'No indicado'}}</p>
