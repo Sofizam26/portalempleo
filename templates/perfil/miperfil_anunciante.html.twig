@@ -5,111 +5,114 @@
 {% block body %}
     {{ render(controller('App\\Controller\\NavController::component')) }}
     {% set fotoPerfil = perfil.usuario.fotoPerfil is not empty ? asset(perfil.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
-<div class="container mt-4">
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success mt-3">
-        {{ message }}
-        </div>
-    {% endfor %}
-
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-danger mt-3">
+    
+    <div class="container mt-4">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mt-3">
             {{ message }}
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
 
-    <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
-    <h3>{{ perfil.nombreAnunciante }}</h3>
-    <div class="card">
-        <div class="card-body">
-            <p><strong>Descripción: </strong> {{ perfil.descripcion ?: 'No indicada'}} </p>
-            <p><strong>Tipo: </strong> {{ perfil.tipo ?: 'No indicada'}} </p>
-            <p><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicado'}} </p>
-            <p><strong>Sitio web: </strong> <a href="{{ perfil.sitioWeb }}">{{ perfil.sitioWeb ?: 'No indicado'}} </a></p>
-        </div>
-    </div>
-    <hr>
-    <h5 class="mb-3">Ofertas Publicadas</h5>
-    {% for oferta in ofertas %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5> {{ oferta.titulo }}</h5>
-            <hr>
-                <p>{{ oferta.descripcion|nl2br }}</p>
-                <p><strong>Ciudad: </strong>{{ oferta.ciudad ?: 'No indicada'}}</p>
-                <p><strong>Tipo de contrato: </strong>{{ oferta.tipoContrato ?: 'No indicado'}}</p>
-                <p><strong>Salario: </strong>{{ oferta.salario ?: 'No indicada'}}</p>
-                <div class="d-flex gap-2 mt-3">
-                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarOferta{{ oferta.id }}">Editar</button>
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarOferta{{ oferta.id }}">Eliminar</button>
-                </div>
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger mt-3">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="card">
+            <div class="card-header text-center">
+                <img src="{{fotoPerfil}}" class="rounded-circle mt-2" style="width: 80px; height: 80px; object-fit: cover">
+                <h3 class="mt-2">{{ perfil.nombreAnunciante }}</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Descripción: </strong> {{ perfil.descripcion ?: 'No indicada'}} </p>
+                <p><strong>Tipo: </strong> {{ perfil.tipo ?: 'No indicada'}} </p>
+                <p><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicado'}} </p>
+                <p><strong>Sitio web: </strong> <a href="{{ perfil.sitioWeb }}">{{ perfil.sitioWeb ?: 'No indicado'}} </a></p>
             </div>
         </div>
-
-        <div class="modal fade" id="modalEditarOferta{{ oferta.id }}" tabindex="-1" aria-labelledby="modalEditarOfertaLabel{{ oferta.id }}" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <form method="POST" action="{{ path('app_editar_oferta', {id: oferta.id}) }}">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalEditarOfertaLabel{{ oferta.id }}">Editar oferta</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="titulo{{ oferta.id }}" class="form-label">Título</label>
-                                <input type="text" name="titulo" id="titulo{{ oferta.id }}" class="form-control" value="{{ oferta.titulo }}" required >
-                            </div>
-                            <div class="mb-3">
-                                <label for="descripcion{{ oferta.id }}" class="form-label">Descripción</label>
-                                <textarea name="descripcion" id="descripcion{{ oferta.id }}" class="form-control" rows="4">{{ oferta.descripcion }}</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="salario{{ oferta.id }}" class="form-label">Salario</label>
-                                <input type="number" name="salario" id="salario{{ oferta.id }}" class="form-control" value="{{ oferta.salario }}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="tipoContrato{{ oferta.id }}" class="form-label">Tipo de contrato</label>
-                                <input type="text" name="tipo_contrato" id="tipoContrato{{ oferta.id }}" class="form-control" value="{{ oferta.tipoContrato }}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="ciudad{{ oferta.id }}" class="form-label">Ciudad</label>
-                                <input type="text" name="ciudad" id="ciudad{{ oferta.id }}" class="form-control" value="{{ oferta.ciudad }}" >
-                            </div>
-                        </div>
-                        <div class="modal-footer"> 
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                        </div>
-                    </form>
+        <hr>
+        <h5 class="mb-3">Ofertas Publicadas</h5>
+        {% for oferta in ofertas %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5> {{ oferta.titulo }}</h5>
+                <hr>
+                    <p>{{ oferta.descripcion|nl2br }}</p>
+                    <p><strong>Ciudad: </strong>{{ oferta.ciudad ?: 'No indicada'}}</p>
+                    <p><strong>Tipo de contrato: </strong>{{ oferta.tipoContrato ?: 'No indicado'}}</p>
+                    <p><strong>Salario: </strong>{{ oferta.salario ?: 'No indicada'}}</p>
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarOferta{{ oferta.id }}">Editar</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarOferta{{ oferta.id }}">Eliminar</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal fade" id="modalEliminarOferta{{ oferta.id }}" tabindex="-1" aria-labelledby="modalEliminarOfertaLabel{{ oferta.id }}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminarOfertaLabel{{ oferta.id }}">Advertencia</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                
-                    <div class="modal-body">
-                        <p class="mb-2">¿Seguro que quieres eliminar esta oferta?</p>
-                        <p class="mb-0"><strong>{{ oferta.titulo }}</strong></p>
-                    </div>
-                
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    
-                        <form method="POST" action="{{ path('app_eliminar_oferta', {id: oferta.id}) }}">
-                            <button type="submit" class="btn btn-danger">Confirmar</button>
+            <div class="modal fade" id="modalEditarOferta{{ oferta.id }}" tabindex="-1" aria-labelledby="modalEditarOfertaLabel{{ oferta.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form method="POST" action="{{ path('app_editar_oferta', {id: oferta.id}) }}">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalEditarOfertaLabel{{ oferta.id }}">Editar oferta</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="titulo{{ oferta.id }}" class="form-label">Título</label>
+                                    <input type="text" name="titulo" id="titulo{{ oferta.id }}" class="form-control" value="{{ oferta.titulo }}" required >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion{{ oferta.id }}" class="form-label">Descripción</label>
+                                    <textarea name="descripcion" id="descripcion{{ oferta.id }}" class="form-control" rows="4">{{ oferta.descripcion }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="salario{{ oferta.id }}" class="form-label">Salario</label>
+                                    <input type="number" name="salario" id="salario{{ oferta.id }}" class="form-control" value="{{ oferta.salario }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tipoContrato{{ oferta.id }}" class="form-label">Tipo de contrato</label>
+                                    <input type="text" name="tipo_contrato" id="tipoContrato{{ oferta.id }}" class="form-control" value="{{ oferta.tipoContrato }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ciudad{{ oferta.id }}" class="form-label">Ciudad</label>
+                                    <input type="text" name="ciudad" id="ciudad{{ oferta.id }}" class="form-control" value="{{ oferta.ciudad }}" >
+                                </div>
+                            </div>
+                            <div class="modal-footer"> 
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-    {% else %}
-        <p>No has publicado ofertas todavía.</p>
-    {% endfor %}
-</div>
+
+            <div class="modal fade" id="modalEliminarOferta{{ oferta.id }}" tabindex="-1" aria-labelledby="modalEliminarOfertaLabel{{ oferta.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalEliminarOfertaLabel{{ oferta.id }}">Advertencia</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                    
+                        <div class="modal-body">
+                            <p class="mb-2">¿Seguro que quieres eliminar esta oferta?</p>
+                            <p class="mb-0"><strong>{{ oferta.titulo }}</strong></p>
+                        </div>
+                    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        
+                            <form method="POST" action="{{ path('app_eliminar_oferta', {id: oferta.id}) }}">
+                                <button type="submit" class="btn btn-danger">Confirmar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No has publicado ofertas todavía.</p>
+        {% endfor %}
+    </div>
 {% endblock %}

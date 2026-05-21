@@ -6,17 +6,19 @@
     {{ render(controller('App\\Controller\\NavController::component')) }}
     {% set fotoPerfil = perfil.usuario.fotoPerfil is not empty ? asset(perfil.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
 
-<div class="container mt-4">
-    <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
-    <h3 class="mb-4"> {{perfil.nombre}} </h3>
-    <div class="card">
-        <div class="card-body">
-            <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
-            <p class="card-text"><strong>Teléfono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
-            {% if perfil.cvPdf %}
-            <p class="card-text"> <strong>Cv: </strong> {{ perfil.cvPdf }} </p>
-            {% endif %}
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header text-center">
+                <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
+                <h3 class="mt-2"> {{perfil.nombre}} </h3>
+            </div>
+            <div class="card-body text-center">
+                <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
+                <p class="card-text"><strong>Teléfono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
+                {% if perfil.cvPdf %}
+                <p class="card-text"> <strong>Cv: </strong> {{ perfil.cvPdf }} </p>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

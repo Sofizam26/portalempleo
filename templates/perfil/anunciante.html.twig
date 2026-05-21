@@ -6,38 +6,40 @@
     {{ render(controller('App\\Controller\\NavController::component')) }}
     {% set fotoPerfil = perfil.usuario.fotoPerfil is not empty ? asset(perfil.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
 
-<div class="container mt-4">
-    <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
-    <h3 class="mb-4"> {{perfil.nombreAnunciante}} </h3>
-    <div class="card">
-        <div class="card-body">
-            <p class="card-text"><strong>Tipo: </strong> {{ perfil.tipo ?: 'No indicado'}} </p>
-            <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
-            <p class="card-text"><strong>Descripcion: </strong> {{ perfil.descripcion ?: 'Sin descripcion'}} </p>
-            {% if perfil.sitioWeb %}
+    <div class="container mt-4">
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                <img src="{{fotoPerfil}}" class="rounded-circle mt-2" style="width: 80px; height: 80px; object-fit: cover">
+                <h3 class="mt-2"> {{perfil.nombreAnunciante}} </h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text"><strong>Tipo: </strong> {{ perfil.tipo ?: 'No indicado'}} </p>
+                <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
+                <p class="card-text"><strong>Descripcion: </strong> {{ perfil.descripcion ?: 'Sin descripcion'}} </p>
+                {% if perfil.sitioWeb %}
                 <p class="card-text"> <strong>Website: </strong> 
                     <a href="{{ perfil.sitioWeb }}" target="_blank" rel="noopener noreferrer">
                         {{ perfil.sitioWeb }}
                     </a>
                 </p>
-            {%endif%}
-        </div>
-    </div>
-    <hr>
-    <h5 class="mb-3">Ofertas Publicadas</h5>
-    {% for oferta in ofertas %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5> {{ oferta.titulo }}</h5>
-                <hr>
-                <p>{{ oferta.descripcion|nl2br }}</p>
-                <p><strong>Ciudad: </strong>{{ oferta.ciudad ?: 'No indicada'}}</p>
-                <p><strong>Tipo de contrato: </strong>{{ oferta.tipoContrato ?: 'No indicado'}}</p>
-                <p><strong>Salario: </strong>{{ oferta.salario ?: 'No indicada'}}</p>
+                {%endif%}
             </div>
         </div>
-    {% else %}
-        <p>Este usuario no ha publicado ninguna oferta de trabajo.</p>
-    {% endfor %}
-</div>
+        <hr>
+        <h5 class="mb-3">Ofertas Publicadas</h5>
+        {% for oferta in ofertas %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5> {{ oferta.titulo }}</h5>
+                    <hr>
+                    <p>{{ oferta.descripcion|nl2br }}</p>
+                    <p><strong>Ciudad: </strong>{{ oferta.ciudad ?: 'No indicada'}}</p>
+                    <p><strong>Tipo de contrato: </strong>{{ oferta.tipoContrato ?: 'No indicado'}}</p>
+                    <p><strong>Salario: </strong>{{ oferta.salario ?: 'No indicada'}}</p>
+                </div>
+            </div>
+        {% else %}
+            <p>Este usuario no ha publicado ninguna oferta de trabajo.</p>
+        {% endfor %}
+    </div>
 {% endblock %}
