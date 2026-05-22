@@ -5,13 +5,16 @@ namespace App\Service;
 use App\Entity\Usuario;
 use App\Repository\CandidatoRepository;
 use App\Repository\AnuncianteRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use LogicException;
 
 class PerfilService
 {
     public function __construct(
         private CandidatoRepository $candidatoRepository,
-        private AnuncianteRepository $anuncianteRepository
+        private AnuncianteRepository $anuncianteRepository,
+        private EntityManagerInterface $em
     ) {}
 
     public function obtenerPerfil(Usuario $usuario): array
@@ -77,6 +80,36 @@ class PerfilService
                 'ofertas' => $perfil->getOfertas()
                 ]
         ];
+    }
+
+    public function editarPerfil(Usuario $usuario, Request $request, string $projectDir): void
+    {
+        $tipo = $request->request->get('form_tipo');
+
+        if ($tipo === 'foto') {
+            $accion = $request->request->get('accion');
+
+            if ($accion === 'eliminar') {
+                $usuario->setFotoPerfil(null);
+                $this->em->flush();
+                return;
+            }
+            
+            if ($accion === 'guardar') {
+                $archivo = $request->files->get('nuevaFoto');
+                
+                if (!$archivo) {
+                    throw new LogicException('No has seleccionado ninguna imagen.');
+                }
+
+                $directorioRelativo = 'images/profiles/' . $usuario->getId();
+                $directorioAbsoluto = $projectDir . '/public/' . $directorioRelativo;
+
+                if (!is_dir($directorioAbsoluto)) {
+                    mkdir($directorioAbsoluto, 0777, true);
+                }
+            }
+        }
     }
 }
 ?>

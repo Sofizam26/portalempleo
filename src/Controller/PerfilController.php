@@ -1,11 +1,11 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Usuario;
 use App\Service\PerfilService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PerfilController extends AbstractController
 {
@@ -22,6 +22,25 @@ class PerfilController extends AbstractController
         $datos = $perfilService->obtenerPerfil($usuario);
 
         return $this->render($datos['vista'], $datos['parametros']);
+    }
+
+    #[Route('/mi_perfil/editar', name: 'app_editarPerfil', methods: ['POST'])]
+    public function editarPerfil(Request $request, PerfilService $perfilService): Response
+    {
+        $usuario = $this->getUser();
+
+        if (!$usuario) {
+            return $this->redirectToRoute('ctrl_login');
+        }
+
+        try{
+            $perfilService->editarPerfil($usuario, $request, $this->getParameter('kernel.project_dir'));
+            $this->addFlash('success', 'Perfil actualizado.');
+        } catch (\LogicException $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_miperfil');
     }
 
     #[Route('/perfil/anunciante/{id}', name: 'app_perfilAnunciante')]
