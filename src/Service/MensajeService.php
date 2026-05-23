@@ -30,6 +30,7 @@ class MensajeService
         $this->em->persist($mensaje);
         $this->em->flush();
     }
+
     public function marcarMensajesComoLeidos(Conversacion $conversacion, string $rol): void
     {
         foreach ($conversacion->getMensajes() as $mensaje) {

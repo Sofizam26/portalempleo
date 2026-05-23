@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Chat;
 
 use App\Entity\Conversacion;
 use App\Service\MensajeService;

@@ -25,7 +25,7 @@ class Mensaje
     private string $mensaje;
 
     #[ORM\Column(name: "fecha_envio", type: "datetime")]
-    private \DateTimeInterface $fechaEnvio;
+    private \DateTime $fechaEnvio;
 
     #[ORM\Column(type: "boolean")]
     private bool $leido = false;
@@ -70,7 +70,7 @@ class Mensaje
         return $this;
     }
 
-    public function getFechaEnvio(): \DateTimeInterface
+    public function getFechaEnvio(): \DateTime
     {
         return $this->fechaEnvio;
     }

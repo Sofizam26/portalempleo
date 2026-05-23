@@ -16,10 +16,7 @@ class MensajeRepository extends ServiceEntityRepository
 
     public function findMensajesOrdenados(Conversacion $conversacion): array
     {
-        return $this->findBy(
-            ['conversacion' => $conversacion],
-            ['fechaEnvio' => 'ASC']
-        );
+        return $this->findBy(['conversacion' => $conversacion], ['fechaEnvio' => 'ASC']);
     }
 
     public function countNoLeidos(Conversacion $conversacion, string $rol): int

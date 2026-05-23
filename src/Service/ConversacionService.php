@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Conversacion;
-use App\Entity\Oferta;
 use App\Entity\Candidato;
 use App\Entity\Anunciante;
 use App\Repository\ConversacionRepository;
@@ -16,16 +15,14 @@ class ConversacionService
         private ConversacionRepository $conversacionRepo
     ) {
     }
-
-    public function obtenerOcrearConversacion(Candidato $candidato, Anunciante $anunciante, ?Oferta $oferta): Conversacion
+    public function obtenerOcrearConversacion(Candidato $candidato, Anunciante $anunciante): Conversacion
     {
-        $conversacion = $this->conversacionRepo->findConversacion($candidato, $anunciante, $oferta);
+        $conversacion = $this->conversacionRepo->findConversacion($candidato, $anunciante);
 
         if (!$conversacion) {
             $conversacion = new Conversacion();
             $conversacion->setCandidato($candidato);
             $conversacion->setAnunciante($anunciante);
-            $conversacion->setOferta($oferta);
 
             $this->em->persist($conversacion);
             $this->em->flush();

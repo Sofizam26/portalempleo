@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repository;
 
 use App\Entity\RegistroPendiente;
@@ -21,16 +22,17 @@ class RegistroPendienteRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['token' => $token]);
     }
-
     public function save(RegistroPendiente $pendiente): void
     {
-        $this->_em->persist($pendiente);
-        $this->_em->flush();
+        $em = $this->getEntityManager();
+        $em->persist($pendiente);
+        $em->flush();
     }
 
     public function remove(RegistroPendiente $pendiente): void
     {
-        $this->_em->remove($pendiente);
-        $this->_em->flush();
+        $em = $this->getEntityManager();
+        $em->remove($pendiente);
+        $em->flush();
     }
 }

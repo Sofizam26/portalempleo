@@ -29,7 +29,7 @@ class Conversacion
     private ?Oferta $oferta = null;
 
     #[ORM\Column(name: "fecha_creacion", type: "datetime")]
-    private \DateTimeInterface $fechaCreacion;
+    private \DateTime $fechaCreacion;
 
     #[ORM\OneToMany(
         mappedBy: "conversacion",
@@ -81,7 +81,7 @@ class Conversacion
         return $this;
     }
 
-    public function getFechaCreacion(): \DateTimeInterface
+    public function getFechaCreacion(): \DateTime
     {
         return $this->fechaCreacion;
     }
@@ -90,6 +90,7 @@ class Conversacion
     {
         return $this->mensajes;
     }
+
     public function getUltimoMensaje(): ?Mensaje
     {
         if ($this->mensajes->isEmpty()) {

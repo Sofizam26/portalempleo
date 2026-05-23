@@ -26,7 +26,7 @@ class RegistroPendiente
     private string $token;
 
     #[ORM\Column(name: "fecha_creacion", type: "datetime")]
-    private \DateTimeInterface $fechaCreacion;
+    private \DateTime $fechaCreacion;
 
     #[ORM\Column(type: "string", length: 100, nullable: true)]
     private ?string $nombre = null;
@@ -66,7 +66,6 @@ class RegistroPendiente
     {
         return $this->email;
     }
-
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -77,7 +76,6 @@ class RegistroPendiente
     {
         return $this->password;
     }
-
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -88,7 +86,6 @@ class RegistroPendiente
     {
         return $this->rol;
     }
-
     public function setRol(string $rol): self
     {
         $this->rol = $rol;
@@ -99,19 +96,17 @@ class RegistroPendiente
     {
         return $this->token;
     }
-
     public function setToken(string $token): self
     {
         $this->token = $token;
         return $this;
     }
 
-    public function getFechaCreacion(): \DateTimeInterface
+    public function getFechaCreacion(): \DateTime
     {
         return $this->fechaCreacion;
     }
-
-    public function setFechaCreacion(\DateTimeInterface $fechaCreacion): self
+    public function setFechaCreacion(\DateTime $fechaCreacion): self
     {
         $this->fechaCreacion = $fechaCreacion;
         return $this;
@@ -121,7 +116,6 @@ class RegistroPendiente
     {
         return $this->nombre;
     }
-
     public function setNombre(?string $nombre): self
     {
         $this->nombre = $nombre;
@@ -132,7 +126,6 @@ class RegistroPendiente
     {
         return $this->telefono;
     }
-
     public function setTelefono(?string $telefono): self
     {
         $this->telefono = $telefono;
@@ -143,7 +136,6 @@ class RegistroPendiente
     {
         return $this->ciudad;
     }
-
     public function setCiudad(?string $ciudad): self
     {
         $this->ciudad = $ciudad;
@@ -154,7 +146,6 @@ class RegistroPendiente
     {
         return $this->cvPdf;
     }
-
     public function setCvPdf(?string $cvPdf): self
     {
         $this->cvPdf = $cvPdf;
@@ -165,7 +156,6 @@ class RegistroPendiente
     {
         return $this->nombreAnunciante;
     }
-
     public function setNombreAnunciante(?string $nombreAnunciante): self
     {
         $this->nombreAnunciante = $nombreAnunciante;
@@ -176,7 +166,6 @@ class RegistroPendiente
     {
         return $this->tipo;
     }
-
     public function setTipo(?string $tipo): self
     {
         $this->tipo = $tipo;
@@ -187,7 +176,6 @@ class RegistroPendiente
     {
         return $this->descripcion;
     }
-
     public function setDescripcion(?string $descripcion): self
     {
         $this->descripcion = $descripcion;
@@ -198,7 +186,6 @@ class RegistroPendiente
     {
         return $this->sitioWeb;
     }
-
     public function setSitioWeb(?string $sitioWeb): self
     {
         $this->sitioWeb = $sitioWeb;
