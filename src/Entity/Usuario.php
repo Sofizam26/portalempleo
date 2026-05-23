@@ -24,6 +24,9 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', name: 'rol', length: 20)]
     private ?string $rol = null;
 
+    #[ORM\Column(type: 'string', name: 'foto_perfil', length: 20)]
+    private $foto_perfil;
+
     #[ORM\Column(type: 'datetime', name: 'fecha_registro')]
     private ?\DateTimeInterface $fecha_registro = null;
 
@@ -114,6 +117,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    public function getFotoPerfil()
+    {
+        return $this->foto_perfil;
+    }
+
+    public function setFotoPerfil(string $foto_perfil)
+    {
+        $this->foto_perfil = $foto_perfil;
+        return $this;
+    }
+    
     public function eraseCredentials(): void
     {
     }

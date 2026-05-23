@@ -46,6 +46,11 @@ class Anunciante
         $this->conversaciones = new ArrayCollection();
     }
 
+    public function __construct()
+    {
+        $this->ofertas = new ArrayCollection();
+        $this->conversaciones = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
