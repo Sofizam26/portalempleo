@@ -11,65 +11,49 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RegistroService
 {
     public function __construct(
         private EntityManagerInterface $em,
         private MailerInterface $mailer,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
-    public function crearRegistroPendienteCandidato(RegistroPendiente $pendiente, string $passwordPlano): array
-    {
-        $repoUsuario = $this->em->getRepository(Usuario::class);
-        if ($repoUsuario->findOneBy(['email' => $pendiente->getEmail()])) {
+    public function crearRegistroPendiente(
+        RegistroPendiente $pendiente,
+        string $passwordPlano,
+        string $rol
+    ): array {
+
+        if ($this->em->getRepository(Usuario::class)->findOneBy(['email' => $pendiente->getEmail()])) {
             return ['error' => 'Este correo ya está registrado.', 'mensaje' => null];
         }
 
         $repoPendiente = $this->em->getRepository(RegistroPendiente::class);
-        if ($repoPendiente->findOneBy(['email' => $pendiente->getEmail()])) {
-            return ['error' => 'Ya existe un registro pendiente con este correo.', 'mensaje' => null];
+        $existente = $repoPendiente->findOneBy(['email' => $pendiente->getEmail()]);
+        if ($existente) {
+            $this->em->remove($existente);
+            $this->em->flush();
         }
 
-        $token = bin2hex(random_bytes(16));
-        $usuarioTemp = new Usuario();
-        $hash = $this->passwordHasher->hashPassword($usuarioTemp, $passwordPlano);
+        $token = bin2hex(random_bytes(32));
+
+        $hash = $this->passwordHasher->hashPassword(new Usuario(), $passwordPlano);
 
         $pendiente->setPassword($hash);
-        $pendiente->setRol('candidato');
+        $pendiente->setRol($rol);
         $pendiente->setToken($token);
 
-        $this->em->persist($pendiente);
-        $this->em->flush();
-
-        $this->enviarEmailValidacion($pendiente->getEmail(), $token);
-
-        return ['error' => null, 'mensaje' => 'Revisa tu correo para validar la cuenta.'];
-    }
-    public function crearRegistroPendienteAnunciante(RegistroPendiente $pendiente, string $passwordPlano): array
-    {
-        $repoUsuario = $this->em->getRepository(Usuario::class);
-        if ($repoUsuario->findOneBy(['email' => $pendiente->getEmail()])) {
-            return ['error' => 'Este correo ya está registrado.', 'mensaje' => null];
+        try {
+            $this->em->persist($pendiente);
+            $this->em->flush();
+        } catch (\Throwable $e) {
+            return ['error' => 'No se pudo crear el registro. Inténtalo más tarde.', 'mensaje' => null];
         }
-
-        $repoPendiente = $this->em->getRepository(RegistroPendiente::class);
-        if ($repoPendiente->findOneBy(['email' => $pendiente->getEmail()])) {
-            return ['error' => 'Ya existe un registro pendiente con este correo.', 'mensaje' => null];
-        }
-
-        $token = bin2hex(random_bytes(16));
-        $usuarioTemp = new Usuario();
-        $hash = $this->passwordHasher->hashPassword($usuarioTemp, $passwordPlano);
-
-        $pendiente->setPassword($hash);
-        $pendiente->setRol('anunciante');
-        $pendiente->setToken($token);
-
-        $this->em->persist($pendiente);
-        $this->em->flush();
 
         $this->enviarEmailValidacion($pendiente->getEmail(), $token);
 
@@ -85,42 +69,60 @@ class RegistroService
             return ['error' => 'El enlace no es válido o ya fue usado.', 'mensaje' => null];
         }
 
-        $usuario = new Usuario();
-        $usuario->setEmail($pendiente->getEmail());
-        $usuario->setPassword($pendiente->getPassword());
-        $usuario->setRol($pendiente->getRol());
-
-        $this->em->persist($usuario);
-        $this->em->flush();
-
-        if ($pendiente->getRol() === 'candidato') {
-            $candidato = new Candidato();
-            $candidato->setUsuario($usuario);
-            $candidato->setNombre($pendiente->getNombre());
-            $candidato->setTelefono($pendiente->getTelefono());
-            $candidato->setCiudad($pendiente->getCiudad());
-            $candidato->setCvPdf($pendiente->getCvPdf());
-            $this->em->persist($candidato);
-        } else {
-            $anunciante = new Anunciante();
-            $anunciante->setUsuario($usuario);
-            $anunciante->setNombreAnunciante($pendiente->getNombreAnunciante());
-            $anunciante->setTipo($pendiente->getTipo());
-            $anunciante->setDescripcion($pendiente->getDescripcion());
-            $anunciante->setSitioWeb($pendiente->getSitioWeb());
-            $anunciante->setCiudad($pendiente->getCiudad());
-            $this->em->persist($anunciante);
+        if (method_exists($pendiente, 'getFechaCreacion') && $pendiente->getFechaCreacion()) {
+            $expira = (clone $pendiente->getFechaCreacion())->modify('+24 hours');
+            if (new \DateTime() > $expira) {
+                $this->em->remove($pendiente);
+                $this->em->flush();
+                return ['error' => 'El enlace ha caducado. Vuelve a registrarte.', 'mensaje' => null];
+            }
         }
+        $this->em->beginTransaction();
+        try {
+            $usuario = new Usuario();
+            $usuario->setEmail($pendiente->getEmail());
+            $usuario->setPassword($pendiente->getPassword());
+            $usuario->setRol($pendiente->getRol());
 
-        $this->em->remove($pendiente);
-        $this->em->flush();
+            $this->em->persist($usuario);
+
+            if ($pendiente->getRol() === 'candidato') {
+                $candidato = new Candidato();
+                $candidato->setUsuario($usuario);
+                $candidato->setNombre($pendiente->getNombre());
+                $candidato->setTelefono($pendiente->getTelefono());
+                $candidato->setCiudad($pendiente->getCiudad());
+                $candidato->setCvPdf($pendiente->getCvPdf());
+                $this->em->persist($candidato);
+            } else {
+                $anunciante = new Anunciante();
+                $anunciante->setUsuario($usuario);
+                $anunciante->setNombreAnunciante($pendiente->getNombreAnunciante());
+                $anunciante->setTipo($pendiente->getTipo());
+                $anunciante->setDescripcion($pendiente->getDescripcion());
+                $anunciante->setSitioWeb($pendiente->getSitioWeb());
+                $anunciante->setCiudad($pendiente->getCiudad());
+                $this->em->persist($anunciante);
+            }
+
+            $this->em->remove($pendiente);
+            $this->em->flush();
+            $this->em->commit();
+        } catch (\Throwable $e) {
+            $this->em->rollback();
+            return ['error' => 'No se pudo validar la cuenta. Inténtalo más tarde.', 'mensaje' => null];
+        }
 
         return ['error' => null, 'mensaje' => 'Tu cuenta ha sido validada correctamente.'];
     }
 
     private function enviarEmailValidacion(string $email, string $token): void
     {
-        $enlace = "http://localhost:8000/validar/" . $token;
+        $enlace = $this->urlGenerator->generate(
+            'validar_registro',
+            ['token' => $token],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
 
         $emailObj = (new Email())
             ->from(new Address('noreply@portalempleo.com', 'Portal Empleo'))
@@ -129,7 +131,8 @@ class RegistroService
             ->html("
                 <h1>Bienvenido/a</h1>
                 <p>Haz clic en el siguiente enlace para validar tu cuenta:</p>
-                <a href='$enlace'>$enlace</a>
+                <a href='{$enlace}'>{$enlace}</a>
+                <p>Este enlace caduca en 24 horas.</p>
             ");
 
         $this->mailer->send($emailObj);

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h2>Conversación</h2>
+
+<div>
+    {% for mensaje in mensajes %}
+        <p>
+            <strong>{{ mensaje.remitente }}:</strong> {{ mensaje.mensaje }}
+            <br>
+            <small>{{ mensaje.fechaEnvio|date('d/m/Y H:i') }}</small>
+
+            {% if not mensaje.leido and mensaje.remitente != app.user.rol %}
+                <span>(nuevo)</span>
+            {% endif %}
+        </p>
+        <hr>
+    {% else %}
+        <p>No hay mensajes todavía.</p>
+    {% endfor %}
+</div>
+
+<form action="{{ path('enviar_mensaje', { id: conversacion.id }) }}" method="POST">
+    <textarea name="mensaje" rows="3" cols="50"></textarea>
+    <br>
+    <button type="submit">Enviar</button>
+</form>
+
+{% endblock %}

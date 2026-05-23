@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\AnuncianteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +17,7 @@ class Anunciante
 
     #[ORM\OneToOne(inversedBy: 'anunciante', targetEntity: Usuario::class)]
     #[ORM\JoinColumn(name: 'id_usuario', referencedColumnName: 'id_usuario', nullable: false, onDelete: 'CASCADE')]
-    private ?Usuario $usuario = null;
+    private Usuario $usuario;
 
     #[ORM\Column(name: 'nombre_anunciante', type: 'string', length: 150)]
     private string $nombre_anunciante;
@@ -46,16 +45,21 @@ class Anunciante
         $this->ofertas = new ArrayCollection();
         $this->conversaciones = new ArrayCollection();
     }
+
+    public function __construct()
+    {
+        $this->ofertas = new ArrayCollection();
+        $this->conversaciones = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsuario(): ?Usuario
+    public function getUsuario(): Usuario
     {
         return $this->usuario;
     }
-
     public function setUsuario(Usuario $usuario): self
     {
         $this->usuario = $usuario;
@@ -66,7 +70,6 @@ class Anunciante
     {
         return $this->nombre_anunciante;
     }
-
     public function setNombreAnunciante(string $nombre_anunciante): self
     {
         $this->nombre_anunciante = $nombre_anunciante;
@@ -77,7 +80,6 @@ class Anunciante
     {
         return $this->tipo;
     }
-
     public function setTipo(string $tipo): self
     {
         $this->tipo = $tipo;
@@ -88,7 +90,6 @@ class Anunciante
     {
         return $this->descripcion;
     }
-
     public function setDescripcion(?string $descripcion): self
     {
         $this->descripcion = $descripcion;
@@ -99,7 +100,6 @@ class Anunciante
     {
         return $this->sitio_web;
     }
-
     public function setSitioWeb(?string $sitio_web): self
     {
         $this->sitio_web = $sitio_web;
@@ -110,7 +110,6 @@ class Anunciante
     {
         return $this->ciudad;
     }
-
     public function setCiudad(?string $ciudad): self
     {
         $this->ciudad = $ciudad;
