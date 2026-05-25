@@ -18,6 +18,7 @@
                 {% if perfil.cvPdf %}
                     <p class="card-text"> <strong>Cv: </strong> {{ perfil.cvPdf }} </p>
                 {% endif %}
+                <a href="{{ path('iniciar_conversacion', {idUsuario: perfil.usuario.id}) }}" class="btn btn-primary">Chat</a>
             </div>
         </div>
     </div>
