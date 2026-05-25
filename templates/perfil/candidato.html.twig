@@ -11,8 +11,10 @@
             <div class="card-header text-center">
                 <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
                 <h3 class="mt-2"> {{perfil.nombre}} </h3>
+                <h5 class="mt-2"> {{perfil.titulo}} </h5>
             </div>
-            <div class="card-body text-center">
+            <div class="card-body">
+                <p class="card-text"><strong>Descripción: </strong> {{ perfil.descripcion ?: 'No indicada'}} </p>
                 <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
                 <p class="card-text"><strong>Teléfono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
                 {% if perfil.cvPdf %}
@@ -39,7 +41,7 @@
                         {% endif %}  
                     </div>  
                 {% endif %}
-                <a href="{{ path('iniciar_conversacion', {idUsuario: perfil.usuario.id}) }}" class="btn btn-primary">Conversa</a>
+                <a href="{{ path('iniciar_conversacion', {idUsuario: perfil.usuario.id}) }}" class="mt-2 btn btn-primary btn-sm">Conversa</a>
             </div>
         </div>
     </div>

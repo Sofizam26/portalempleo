@@ -16,10 +16,10 @@ class BuscadorController extends AbstractController
         $resultados = $buscadorService->buscar($filtro);
 
         return $this->render('buscador/resultados.html.twig', [
-            'filtro' => $resultados['filtro'],
-            'candidatos' => $resultados['candidatos'],
-            'anunciantes' => $resultados['anunciantes'],
-            'ofertas' => $resultados['ofertas']
+                'filtro' => $resultados['filtro'],
+                'candidatos' => $resultados['candidatos'],
+                'anunciantes' => $resultados['anunciantes'],
+                'ofertas' => $resultados['ofertas']
             ]);
     }
 }

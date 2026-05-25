@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PerfilController extends AbstractController
@@ -138,10 +137,6 @@ class PerfilController extends AbstractController
     public function verCv(int $id, CandidatoRepository $candidatoRepository, SolicitudCvRepository $solicitudCvRepository): Response
     {
         $usuario = $this->getUser();
-
-        if (!$usuario instanceof Usuario) {
-            return $this->redirectToRoute('ctrl_login');
-        }
 
         $candidato = $candidatoRepository->find($id);
 

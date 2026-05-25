@@ -9,7 +9,7 @@
         <h3 class="mb-4">Últimas ofertas</h3>
 
         {% for oferta in ofertas %}
-        {%set fotoPerfil = oferta.anunciante.usuario.fotoPerfil is not empty ? asset(oferta.anunciante.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
+            {%set fotoPerfil = oferta.anunciante.usuario.fotoPerfil is not empty ? asset(oferta.anunciante.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
             <div class="card mb-3">
                 <div class="card-header">
                     {# <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 70px; height: 70px; object-fit: cover"> #}

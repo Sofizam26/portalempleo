@@ -209,8 +209,8 @@ class PerfilService
                 }
 
                 $tipoAnunciante = trim((string) $request->request->get('tipo'));
-                if ($tipoAnunciante === '') {
-                    throw new LogicException('El nombre del anunciante no puede estar vació.');
+                if (!in_array($tipoAnunciante, ['Empresa', 'Particular'], true)) {
+                    throw new LogicException('El tipo de anunciante no es válido.');
                 }
 
                 $perfil->setNombreAnunciante($nombreAnunciante);
