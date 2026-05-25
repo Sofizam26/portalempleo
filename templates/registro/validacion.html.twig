@@ -3,15 +3,35 @@
 {% block title %}Validación de cuenta{% endblock %}
 
 {% block contenido %}
-<h2>Validación de registro</h2>
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card shadow-lg" style="width: 100%; max-width: 500px;">
+            <div class="card-body p-5 text-center">
+                {% if error %}
+                    <i class="bi bi-exclamation-circle" style="font-size: 4rem; color: #dc3545;"></i>
+                    <h3 class="card-title mt-4 mb-3">Error en la validación</h3>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% elseif mensaje %}
+                    <i class="bi bi-check-circle" style="font-size: 4rem; color: #198754;"></i>
+                    <h3 class="card-title mt-4 mb-3">¡Cuenta validada!</h3>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ mensaje }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% else %}
+                    <i class="bi bi-hourglass-split" style="font-size: 4rem; color: #0d6efd;"></i>
+                    <h3 class="card-title mt-4 mb-3">Validando tu cuenta...</h3>
+                    <p class="text-muted">Por favor espera mientras validamos tu registro.</p>
+                {% endif %}
 
-{% if error %}
-    <div style="color:red;">{{ error }}</div>
-{% endif %}
+                <hr class="my-4">
 
-{% if mensaje %}
-    <div style="color:green;">{{ mensaje }}</div>
-{% endif %}
-
-<a href="{{ path('ctrl_login') }}">Ir al login</a>
+                <a href="{{ path('ctrl_login') }}" class="btn btn-dark">
+                    <i class="bi bi-door-open me-2"></i>Ir al login
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

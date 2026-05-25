@@ -1,24 +1,59 @@
 {% extends 'registro/base.html.twig' %}
 
-{% block title %}login{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block contenido %}
-    {% if error %}
-        <p style="color:red">
-            {{ error.messageKey|trans(error.messageData, 'security') }}
-        </p>
-    {% endif %}
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card shadow-lg" style="width: 100%; max-width: 400px;">
+            <div class="card-body p-5">
+                <h3 class="card-title text-center mb-4">
+                    <i class="bi bi-door-open me-2"></i>Iniciar Sesión
+                </h3>
 
-    <form action="{{ path('ctrl_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" />
+                <form action="{{ path('ctrl_login') }}" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label fw-semibold">Email</label>
+                        <input 
+                            type="email" 
+                            id="username" 
+                            name="_username" 
+                            class="form-control" 
+                            value="{{ last_username }}"
+                            placeholder="tu@email.com"
+                            required>
+                    </div>
 
-        <button type="submit">login</button>
-    </form>
+                    <div class="mb-3">
+                        <label for="password" class="form-label fw-semibold">Contraseña</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="_password" 
+                            class="form-control"
+                            placeholder="••••••••"
+                            required>
+                    </div>
 
-    <br>
-    <a href="{{ path('registro_rol') }}">Registrate</a>
+                    <button type="submit" class="btn btn-dark w-100 mb-3">
+                        <i class="bi bi-check-circle me-2"></i>Iniciar Sesión
+                    </button>
+                </form>
+
+                <hr>
+
+                <p class="text-center mb-0">
+                    ¿No tienes cuenta? 
+                    <a href="{{ path('registro_rol') }}" class="text-decoration-none fw-semibold">Regístrate aquí</a>
+                </p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
