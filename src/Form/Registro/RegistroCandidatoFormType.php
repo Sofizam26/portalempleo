@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
 
 class RegistroCandidatoFormType extends AbstractType
 {
@@ -18,13 +20,23 @@ class RegistroCandidatoFormType extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'label' => 'Nombre completo',
+                'constraints' => [
+                    new NotBlank(['message' => 'El nombre es obligatorio']),
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Correo electrónico',
+                'constraints' => [
+                    new NotBlank(['message' => 'El email es obligatorio']),
+                    new Email(['message' => 'Introduce un email válido']),
+                ],
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Contraseña',
                 'mapped' => false,
+                'constraints' => [
+                    new NotBlank(['message' => 'La contraseña es obligatoria']),
+                ],
             ])
             ->add('telefono', TelType::class, [
                 'label' => 'Teléfono',
