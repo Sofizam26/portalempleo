@@ -1,28 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h2>Mis conversaciones</h2>
+    {{ render(controller('App\\Controller\\NavController::component')) }}
+    
+    <div class="container mt-4">
+        <h2 class="mb-4">Mis Conversaciones</h2>
 
-<ul>
-    {% for conversacion in conversaciones %}
-        <li>
-            <a href="{{ path('ver_conversacion', { id: conversacion.id }) }}">
-                Conversación con 
-                {% if app.user.rol == 'candidato' %}
-                    {{ conversacion.anunciante.nombre }}
-                {% else %}
-                    {{ conversacion.candidato.nombre }}
-                {% endif %}
-
-                {% set ultimo = conversacion.getUltimoMensaje() %}
-                {% if ultimo %}
-                    — Último mensaje: "{{ ultimo.mensaje|slice(0, 30) }}..."
-                {% endif %}
-            </a>
-        </li>
-    {% else %}
-        <li>No tienes conversaciones.</li>
-    {% endfor %}
-</ul>
-
+        {% if conversaciones is empty %}
+            <div class="alert alert-info" role="alert">
+                No tienes conversaciones aún.
+            </div>
+        {% else %}
+            <div class="list-group">
+                {% for conversacion in conversaciones %}
+                    <a href="{{ path('ver_conversacion', { id: conversacion.id }) }}" 
+                       class="list-group-item list-group-item-action">
+                        
+                        <div class="d-flex w-100 justify-content-between align-items-start">
+                            <h5 class="mb-1">
+                                {% if app.user.rol == 'candidato' %}
+                                    {{ conversacion.anunciante.nombreAnunciante }}
+                                {% else %}
+                                    {{ conversacion.candidato.nombre }}
+                                {% endif %}
+                            </h5>
+                        </div>
+                        
+                        <p class="mb-1 text-muted">
+                            {% if conversacion.getUltimoMensaje() %}
+                                {{ conversacion.getUltimoMensaje().mensaje|slice(0, 50) }}...
+                            {% else %}
+                                Sin mensajes
+                            {% endif %}
+                        </p>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
