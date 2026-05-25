@@ -11,8 +11,10 @@
             <div class="card-header text-center">
                 <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover">
                 <h3 class="mt-2"> {{perfil.nombre}} </h3>
+                <h5 class="mt-2"> {{perfil.titulo}} </h5>
             </div>
-            <div class="card-body text-center">
+            <div class="card-body">
+                <p class="card-text"><strong>Descripcion: </strong> {{ perfil.descripcion ?: 'No indicada'}} </p>
                 <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
                 <p class="card-text"><strong>Teléfono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
                 {% if perfil.cvPdf %}
@@ -26,8 +28,6 @@
                             <a href="{{ path('app_verCv', {'id': perfil.id}) }}" target="_blank" class="btn btn-outline-success btn-sm ms-2">Ver CV</a>
                         {% elseif solicitudCv and solicitudCv.estado == 'pendiente' %}
                             <span class="badge bg-warning text-dark ms-2">Solicitud pendiente</span>
-                        {% elseif solicitudCv and solicitudCv.estado == 'rechazada' %}
-                            <span class="badge bg-danger ms-2">Solicitud rechazada</span>
                         {% elseif usuarioActual %}
                             <form method="POST" action="{{ path('app_solicitarCv', {'id': perfil.id}) }}" class="d-inline">
                                 <button type="submit" class="btn btn-outline-secondary btn-sm ms-2">
@@ -39,7 +39,7 @@
                         {% endif %}  
                     </div>  
                 {% endif %}
-                <a href="{{ path('iniciar_conversacion', {idUsuario: perfil.usuario.id}) }}" class="btn btn-primary">Conversa</a>
+                <a href="{{ path('iniciar_conversacion', {idUsuario: perfil.usuario.id}) }}" class="btn btn-primary btn-sm mt-2">Conversa</a>
             </div>
         </div>
     </div>
