@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'ofertas')]
@@ -39,7 +40,7 @@ class Oferta
     private $postulaciones = [];
 
     #[ORM\OneToMany(mappedBy: 'oferta', targetEntity: Conversacion::class)]
-    private $conversaciones = [];
+    private Collection $conversaciones;
     
     // Getters y Setters
     public function getId() { return $this->id; }
