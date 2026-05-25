@@ -55,6 +55,8 @@ class ConversacionController extends AbstractController
     {
         $mensajes = $mensajeService->obtenerMensajesOrdenados($conversacion);
 
+        $mensajeService->marcarMensajesComoLeidos($conversacion, $this->getUser()->getRol());
+
         return $this->render('chat/ver.html.twig', [
             'conversacion' => $conversacion,
             'mensajes' => $mensajes

@@ -35,9 +35,13 @@ class Candidato
     #[ORM\OneToMany(mappedBy: 'candidato', targetEntity: Postulacion::class, orphanRemoval: true)]
     private Collection $postulaciones;
 
+    #[ORM\OneToMany(mappedBy: 'candidato', targetEntity: Conversacion::class, orphanRemoval: true)]
+    private Collection $conversaciones;
+
     public function __construct()
     {
         $this->postulaciones = new ArrayCollection();
+        $this->conversaciones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,10 +115,12 @@ class Candidato
 
     public function removePostulacion(Postulacion $postulacion): self
     {
-        if ($this->postulaciones->removeElement($postulacion)) {
-            if ($postulacion->getCandidato() === $this) {
-            }
-        }
+        $this->postulaciones->removeElement($postulacion);
         return $this;
+    }
+
+    public function getConversaciones(): Collection
+    {
+        return $this->conversaciones;
     }
 }

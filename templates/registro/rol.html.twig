@@ -3,17 +3,52 @@
 {% block title %}Elegir rol{% endblock %}
 
 {% block contenido %}
-<h2>¿Cómo quieres registrarte?</h2>
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div style="width: 100%; max-width: 500px;" class="px-3">
+            <h2 class="text-center mb-5">¿Cómo quieres registrarte?</h2>
 
-<div>
-    <a href="{{ path('registro_candidato') }}">Soy candidato</a>
-</div>
+            <div class="row g-3">
+                <!-- Candidato -->
+                <div class="col-md-6">
+                    <a href="{{ path('registro_candidato') }}" class="text-decoration-none">
+                        <div class="card shadow-sm h-100 border-0 hover-shadow" style="transition: all 0.3s;">
+                            <div class="card-body text-center p-5">
+                                <i class="bi bi-person-check" style="font-size: 3rem; color: #0d6efd;"></i>
+                                <h5 class="card-title mt-3 mb-2">Soy Candidato</h5>
+                                <p class="card-text text-muted small">Busca ofertas de trabajo y postúlate</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
 
-<div>
-    <a href="{{ path('registro_anunciante') }}">Soy anunciante</a>
-</div>
+                <!-- Anunciante -->
+                <div class="col-md-6">
+                    <a href="{{ path('registro_anunciante') }}" class="text-decoration-none">
+                        <div class="card shadow-sm h-100 border-0 hover-shadow" style="transition: all 0.3s;">
+                            <div class="card-body text-center p-5">
+                                <i class="bi bi-briefcase" style="font-size: 3rem; color: #198754;"></i>
+                                <h5 class="card-title mt-3 mb-2">Soy Anunciante</h5>
+                                <p class="card-text text-muted small">Publica ofertas y encuentra candidatos</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-<div style="margin-top:20px;">
-    <a href="{{ path('ctrl_login') }}">Ir al login</a>
-</div>
+            <hr class="my-5">
+
+            <p class="text-center">
+                <a href="{{ path('ctrl_login') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Volver al login
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .hover-shadow:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+            transform: translateY(-5px);
+        }
+    </style>
 {% endblock %}
