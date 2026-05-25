@@ -16,7 +16,28 @@
                 <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
                 <p class="card-text"><strong>Teléfono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
                 {% if perfil.cvPdf %}
-                    <p class="card-text"> <strong>Cv: </strong> {{ perfil.cvPdf }} </p>
+                    <div class="mt-3">
+                        <strong>CV:</strong>
+                        {% if usuarioActual and perfil.usuario.id == usuarioActual.id %}
+                            <a href="{{ path('app_verCv', {'id': perfil.id}) }}" target="_blank" class="btn btn-outline-primary btn-sm ms-2">Ver CV</a>
+                        {% elseif perfil.cvPublico %}
+                            <a href="{{ path('app_verCv', {'id': perfil.id}) }}" target="_blank" class="btn btn-outline-primary btn-sm ms-2">Ver CV</a>
+                        {% elseif solicitudCv and solicitudCv.estado == 'aceptada' %}
+                            <a href="{{ path('app_verCv', {'id': perfil.id}) }}" target="_blank" class="btn btn-outline-success btn-sm ms-2">Ver CV</a>
+                        {% elseif solicitudCv and solicitudCv.estado == 'pendiente' %}
+                            <span class="badge bg-warning text-dark ms-2">Solicitud pendiente</span>
+                        {% elseif solicitudCv and solicitudCv.estado == 'rechazada' %}
+                            <span class="badge bg-danger ms-2">Solicitud rechazada</span>
+                        {% elseif usuarioActual %}
+                            <form method="POST" action="{{ path('app_solicitarCv', {'id': perfil.id}) }}" class="d-inline">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm ms-2">
+                                    Solicitar acceso
+                                </button>
+                            </form>
+                        {% else %}
+                            <span class="text-muted ms-2">Inicia sesión para solicitar acceso</span>
+                        {% endif %}  
+                    </div>  
                 {% endif %}
             </div>
         </div>

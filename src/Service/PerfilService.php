@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\SolicitudCv;
 use App\Entity\Usuario;
 use App\Repository\CandidatoRepository;
 use App\Repository\AnuncianteRepository;
@@ -26,9 +27,15 @@ class PerfilService
                 throw new LogicException('El candidato no tiene un perfil');
             }
 
+            $solicitudesRecibidas = $this->em->getRepository(SolicitudCv::class)->findBy(
+                ['candidato' => $perfil],
+                ['fecha_solicitud' => 'DESC']
+            );
+
             return [
                 'vista' => 'perfil/miperfil_candidato.html.twig',
-                'parametros' => ['perfil' => $perfil]
+                'parametros' => ['perfil' => $perfil,
+                                 'solicitudesRecibidas' => $solicitudesRecibidas]
             ];
         }
         
@@ -51,7 +58,7 @@ class PerfilService
         throw new LogicException('Rol no válido.');
     }
 
-    public function obtenerPerfilCandidato(int $id): array
+    public function obtenerPerfilCandidato(int $id, ?Usuario $usuario = null): array
     {
         $perfil = $this->candidatoRepository->find($id);
 
@@ -59,9 +66,20 @@ class PerfilService
             throw new LogicException('Candidato no encontrado');
         }
 
+        $solicitudCv = null;
+
+        if ($usuario && $perfil->getUsuario() !== $usuario) {
+            $solicitudCv = $this->em->getRepository(SolicitudCv::class)->findOneBy([
+                'usuarioSolicitante' => $usuario,
+                'candidato' => $perfil
+            ]);
+        }
+
         return [
             'vista' => 'perfil/candidato.html.twig',
-            'parametros' => ['perfil' => $perfil]
+            'parametros' => ['perfil' => $perfil,
+                             'solicitudCv' => $solicitudCv,
+                             'usuarioActual' => $usuario]
         ];
     }
     
@@ -147,7 +165,10 @@ class PerfilService
                 $perfil->setNombre($nombre);
                 $perfil->setTelefono($request->request->get('telefono') ?: null);
                 $perfil->setCiudad($request->request->get('ciudad') ?: null);
-
+                $perfil->setTitulo($request->request->get('titulo') ?: null);
+                $perfil->setDescripcion($request->request->get('descripcion') ?: null);
+                $perfil->setCvPublico((bool) $request->request->get('cvPublico'));
+                
                 $cv = $request->files->get('cvPdf');
 
                 if ($cv) {

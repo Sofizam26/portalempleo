@@ -31,6 +31,15 @@ class Candidato
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $cv_pdf = null;
+    
+    #[ORM\Column(type: 'string', name: 'titulo_profesional', length: 150, nullable: true)]
+    private $titulo_profesional;
+
+    #[ORM\Column(type: 'text', name: 'descripcion', nullable: true)]
+    private $descripcion;
+
+    #[ORM\Column(type: 'boolean', name: 'cv_publico', options: ['default' => false])]
+    private $cv_publico;
 
     #[ORM\OneToMany(mappedBy: 'candidato', targetEntity: Postulacion::class, orphanRemoval: true)]
     private Collection $postulaciones;
@@ -97,6 +106,37 @@ class Candidato
     public function setCvPdf(?string $cv_pdf): self
     {
         $this->cv_pdf = $cv_pdf;
+        return $this;
+    }
+
+     public function getTitulo()
+    {
+        return $this->titulo_profesional;
+    }
+
+    public function setTitulo(?string $titulo_profesional)
+    {
+        $this->titulo_profesional = $titulo_profesional;
+        return $this;
+    }
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(?string $descripcion)
+    {
+        $this->descripcion = $descripcion;
+        return $this;
+    }
+    public function getCvPublico()
+    {
+        return $this->cv_publico;
+    }
+
+    public function setCvPublico(?bool $cv_publico)
+    {
+        $this->cv_publico = $cv_publico;
         return $this;
     }
 
