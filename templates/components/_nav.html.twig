@@ -1,5 +1,7 @@
 {% set fotoPerfil = menu.usuario.fotoPerfil is not empty ? asset(menu.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
 
+{% set fotoPerfil = menu.usuario.fotoPerfil is not empty ? asset(menu.usuario.fotoPerfil) : asset('images/defaultProfile.jpg') %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
 
@@ -29,8 +31,20 @@
                 {% endfor %}
             </ul>
 
-            <a href="{{ path('app_miperfil') }}"class="d-flex align-items-center gap-2 text-decoration-none text-light">
-                <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover">
+            <form class="d-flex me-3" method="get" action="{{ path('app_buscador') }}">
+                <input
+                    class="form-control me-2"
+                    type="search"
+                    name="filtro"
+                    value="{{ app.request.get('filtro') }}"
+                    placeholder="Buscar..."
+                    aria-label="Buscar"
+                >
+                <button class="btn btn-outline-light" type="submit">Buscar</button>
+            </form>
+
+            <a href="{{ path('app_miperfil') }}" class="d-flex align-items-center gap-2 text-decoration-none text-light">
+                <img src="{{ fotoPerfil }}" class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover">
                 | <span class="navbar-text text-light">
                     {{ menu.usuario.email }}
                 </span>
