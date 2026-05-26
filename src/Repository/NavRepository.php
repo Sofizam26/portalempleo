@@ -25,12 +25,6 @@ class NavRepository
                 'route' => 'lista_conversaciones',
                 'icon' => 'chat'
             ]
-            // [
-            //     'id' => 'buscador',
-            //     'label' => 'Buscador',
-            //     'route' => 'app_buscador',
-            //     'icon' => 'search'
-            // ]
         ];
     }
 }

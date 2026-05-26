@@ -5,121 +5,109 @@
 {% block body %}
     {{ render(controller('App\\Controller\\NavController::component')) }}
 
-<div class="container py-4">
-<h1 class="mb-4">Resultados de búsqueda</h1>
+    <div class="container py-4">
+        <h1 class="mb-4">Resultados de búsqueda</h1>
 
-{% if filtro %}
-<p class="text-muted">
-        Resultados para: <strong>{{ filtro }}</strong>
+        <p class="text-muted mb-4">
+            Resultados para: <strong>{{ filtro }}</strong>
         </p>
 
-{% endif %}
+        <div class="row g-4">
+            <div class="col-12">
+                <h2 class="h4 mb-3">Candidatos</h2>
 
-{% set total = candidatos|length + anunciantes|length + ofertas|length %}
+                {% if candidatos is empty %}
+                    <div class="alert alert-secondary">No hay candidatos que coincidan.</div>
+                {% else %}
+                    <div class="row g-3">
+                        {% for candidato in candidatos %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-1">{{ candidato.nombre }}</h5>
 
-    {% if total == 0 %}
-    <div class="alert alert-info mt-4">
-    No se han encontrado resultados para tu búsqueda.
-        </div>
-    {% else %}
-        
-    <section class="mb-5">
-    <h2 class="h4 mb-3">Candidatos ({{ candidatos|length }})</h2>
+                                        <p class="text-muted mb-2">
+                                            {{ candidato.titulo ?: 'Sin título' }}
+                                        </p>
 
-    {% if candidatos is empty %}
-       <p class="text-muted">No hay candidatos que coincidan.</p>
-            {% else %}
-            <div class="row g-3">
-            {% for candidato in candidatos %}
-            <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm">
-            <div class="card-body">
-            <h3 class="h5 mb-1">{{ candidato.nombre }}</h3>
-            <p class="text-muted mb-2">
-            {{ candidato.titulo ?: 'Sin título' }}
-        </p>
-        
-        <p class="mb-2">
-            {{ candidato.descripcion ? candidato.descripcion|slice(0, 140) ~ (candidato.descripcion|length > 140 ? '...' : '') : 'Sin descripción' }}
-            </p>
-            <p class="small text-muted mb-3">
-            {{ candidato.ciudad ?: 'Ciudad no indicada' }}
-            </p>
-            <a href="{{ path('perfil_candidato', {id: candidato.id}) }}" class="btn btn-sm btn-outline-primary">
-                    Ver perfil
-                </a>
-            </div>
-        </div>
-    </div>
-{% endfor %}
-</div>
-{% endif %}
-</section>
+                                        <p class="card-text">
+                                            {{ candidato.descripcion ? candidato.descripcion|slice(0, 140) ~ (candidato.descripcion|length > 140 ? '...' : '') : 'Sin descripción' }}
+                                        </p>
 
-<section class="mb-5">
-<h2 class="h4 mb-3">Anunciantes ({{ anunciantes|length }})</h2>
-
-    {% if anunciantes is empty %}
-        <p class="text-muted">No hay anunciantes que coincidan.</p>
-            {% else %}
-    <div class="row g-3">
-                       
-    {% for anunciante in anunciantes %}
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                   <h3 class="h5 mb-1">{{ anunciante.nombreAnunciante }}</h3>
-                    <p class="text-muted mb-2">{{ anunciante.tipo ?: 'Sin tipo' }}</p>
-                    <p class="mb-2">
-                 {{ anunciante.descripcion ? anunciante.descripcion|slice(0, 140) ~ (anunciante.descripcion|length > 140 ? '...' : '') : 'Sin descripción' }}
-                   </p>
-                   <p class="small text-muted mb-3">
-                   {{ anunciante.ciudad ?: 'Ciudad no indicada' }}
-                </p>
-    
-    <a href="{{ path('perfil_anunciante', {id: anunciante.id}) }}" class="btn btn-sm btn-outline-primary">
-              Ver perfil
-                </a>
-                </div>
-            </div>
-            </div>
-        {% endfor %}
-       </div>
-    {% endif %}
-</section>
-
-<section>
-    <h2 class="h4 mb-3">Ofertas ({{ ofertas|length }})</h2>
-
-    {% if ofertas is empty %}
-      <p class="text-muted">No hay ofertas que coincidan.</p>
-        {% else %}
-            <div class="row g-3">
-               {% for oferta in ofertas %}
-                  <div class="col-md-6">
-                    <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                     <h3 class="h5 mb-1">{{ oferta.titulo }}</h3>
-                      <p class="text-muted mb-2">
-                    {{ oferta.anunciante.nombreAnunciante ?? 'Anunciante no indicado' }}
-                      </p>
-                      <p class="mb-2">
-                      {{ oferta.descripcion ? oferta.descripcion|slice(0, 160) ~ (oferta.descripcion|length > 160 ? '...' : '') : 'Sin descripción' }}
-                        </p>
-                    <p class="small text-muted mb-3">
-                    {{ oferta.ciudad ?: 'Ciudad no indicada' }} · {{ oferta.tipoContrato ?: 'Sin contrato' }}
-                    </p>
-                        <a href="{{ path('perfil_anunciante', {id: oferta.anunciante.id}) }}" class="btn btn-sm btn-outline-primary">
-                         Ver anunciante
-                        
-                        </a>
+                                        <p class="small text-muted mb-0">
+                                            {{ candidato.ciudad ?: 'Ciudad no indicada' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
+                {% endif %}
+            </div>
+
+            <div class="col-12">
+                <h2 class="h4 mb-3">Anunciantes</h2>
+
+                {% if anunciantes is empty %}
+                    <div class="alert alert-secondary">No hay anunciantes que coincidan.</div>
+                {% else %}
+                    <div class="row g-3">
+                        {% for anunciante in anunciantes %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-1">{{ anunciante.nombreAnunciante }}</h5>
+
+                                        <p class="text-muted mb-2">
+                                            {{ anunciante.tipo ?: 'Sin tipo' }}
+                                        </p>
+
+                                        <p class="card-text">
+                                            {{ anunciante.descripcion ? anunciante.descripcion|slice(0, 140) ~ (anunciante.descripcion|length > 140 ? '...' : '') : 'Sin descripción' }}
+                                        </p>
+
+                                        <p class="small text-muted mb-0">
+                                            {{ anunciante.ciudad ?: 'Ciudad no indicada' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                </div>
-            {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="col-12">
+                <h2 class="h4 mb-3">Ofertas</h2>
+
+                {% if ofertas is empty %}
+                    <div class="alert alert-secondary">No hay ofertas que coincidan.</div>
+                {% else %}
+                    <div class="row g-3">
+                        {% for oferta in ofertas %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-1">{{ oferta.titulo }}</h5>
+
+                                        <p class="text-muted mb-2">
+                                            {{ oferta.anunciante.nombreAnunciante ?? 'Anunciante no indicado' }}
+                                        </p>
+
+                                        <p class="card-text">
+                                            {{ oferta.descripcion ? oferta.descripcion|slice(0, 160) ~ (oferta.descripcion|length > 160 ? '...' : '') : 'Sin descripción' }}
+                                        </p>
+
+                                        <p class="small text-muted mb-0">
+                                            {{ oferta.ciudad ?: 'Ciudad no indicada' }} · {{ oferta.tipoContrato ?: 'Sin contrato' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    {% endif %}
-</section>
-{% endif %}
     </div>
 {% endblock %}
