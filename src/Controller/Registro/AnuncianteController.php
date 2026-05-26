@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\Registro;
 
 use App\Entity\RegistroPendiente;
@@ -16,26 +15,22 @@ class AnuncianteController extends AbstractController
     {
         $pendiente = new RegistroPendiente();
         $form = $this->createForm(RegistroAnuncianteFormType::class, $pendiente);
-
         $form->handleRequest($request);
 
+        $error = null;
+        $mensaje = null;
+
         if ($form->isSubmitted() && $form->isValid()) {
-
             $passwordPlano = $form->get('password')->getData();
-
-            $resultado = $registroService->crearRegistroPendienteAnunciante($pendiente, $passwordPlano);
-
-            return $this->render('registro/anunciante.html.twig', [
-                'form' => $form->createView(),
-                'error' => $resultado['error'],
-                'mensaje' => $resultado['mensaje'],
-            ]);
+            $resultado = $registroService->crearRegistroPendiente($pendiente, $passwordPlano, 'anunciante');
+            $error = $resultado['error'];
+            $mensaje = $resultado['mensaje'];
         }
 
         return $this->render('registro/anunciante.html.twig', [
             'form' => $form->createView(),
-            'error' => null,
-            'mensaje' => null,
+            'error' => $error,
+            'mensaje' => $mensaje,
         ]);
     }
 }

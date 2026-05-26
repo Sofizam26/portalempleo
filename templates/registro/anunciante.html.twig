@@ -3,28 +3,85 @@
 {% block title %}Registro de anunciante{% endblock %}
 
 {% block contenido %}
-<h2>Crear cuenta de anunciante</h2>
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card shadow-lg" style="width: 100%; max-width: 500px;">
+            <div class="card-body p-5">
+                <h3 class="card-title text-center mb-4">
+                    <i class="bi bi-briefcase-fill me-2"></i>Crear cuenta de anunciante
+                </h3>
 
-{% if error %}
-    <div style="color:red;">{{ error }}</div>
-{% endif %}
-{% if mensaje %}
-    <div style="color:green;">{{ mensaje }}</div>
-{% endif %}
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
 
-{{ form_start(form) }}
+                {% if mensaje %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>{{ mensaje }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
 
-    {{ form_row(form.nombreAnunciante) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.password) }}
-    {{ form_row(form.tipo) }}
-    {{ form_row(form.descripcion) }}
-    {{ form_row(form.sitioWeb) }}
-    {{ form_row(form.ciudad) }}
+                {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
 
-    <button type="submit">Registrarse</button>
+                    <div class="mb-3">
+                        {{ form_label(form.nombreAnunciante, 'Nombre de la empresa/anunciante', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.nombreAnunciante, {'attr': {'class': 'form-control', 'placeholder': 'Tu empresa'}}) }}
+                        {{ form_errors(form.nombreAnunciante) }}
+                    </div>
 
-{{ form_end(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'tu@empresa.com'}}) }}
+                        {{ form_errors(form.email) }}
+                    </div>
 
-<a href="{{ path('registro_rol') }}">Volver</a>
+                    <div class="mb-3">
+                        {{ form_label(form.password, 'Contraseña', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': '••••••••'}}) }}
+                        {{ form_errors(form.password) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.tipo, 'Tipo de empresa', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.tipo, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.tipo) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.descripcion, {'attr': {'class': 'form-control', 'rows': '3', 'placeholder': 'Cuéntanos sobre tu empresa'}}) }}
+                        {{ form_errors(form.descripcion) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.sitioWeb, 'Sitio web', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.sitioWeb, {'attr': {'class': 'form-control', 'placeholder': 'https://tuempresa.com'}}) }}
+                        {{ form_errors(form.sitioWeb) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.ciudad, 'Ciudad', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.ciudad, {'attr': {'class': 'form-control', 'placeholder': 'Tu ciudad'}}) }}
+                        {{ form_errors(form.ciudad) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-dark w-100 mb-3">
+                        <i class="bi bi-arrow-right me-2"></i>Registrarse
+                    </button>
+
+                {{ form_end(form) }}
+
+                <hr>
+
+                <p class="text-center mb-0">
+                    <a href="{{ path('registro_rol') }}" class="text-decoration-none">
+                        <i class="bi bi-arrow-left me-1"></i>Volver
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

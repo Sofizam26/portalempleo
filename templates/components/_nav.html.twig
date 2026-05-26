@@ -1,3 +1,5 @@
+{% set fotoPerfil = menu.usuario.fotoPerfil is not empty ? asset(menu.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
 
@@ -16,6 +18,8 @@
                                 <i class="bi bi-house-door me-1"></i>
                             {% elseif item.icon == 'user' %}
                                 <i class="bi bi-person me-1"></i>
+                            {% elseif item.icon == 'chat' %}
+                                <i class="bi bi-chat-dots me-1"></i>
                             {% elseif item.icon == 'search' %}
                                 <i class="bi bi-search me-1"></i>
                             {% endif %}
@@ -25,9 +29,12 @@
                 {% endfor %}
             </ul>
 
-            <span class="navbar-text text-light">
-                {{ menu.usuario.email }} 
-            </span>
+            <a href="{{ path('app_miperfil') }}"class="d-flex align-items-center gap-2 text-decoration-none text-light">
+                <img src="{{fotoPerfil}}" class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover">
+                | <span class="navbar-text text-light">
+                    {{ menu.usuario.email }}
+                </span>
+            </a>
         </div>
     </div>
 </nav>

@@ -1648,6 +1648,7 @@ namespace Symfony\Component\Routing\Loader\Configurator;
  *     alias: string,
  *     deprecated?: array{package:string, version:string, message?:string},
  * }
+
  * @psalm-type RoutesConfig = array{
  *     "when@dev"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
  *     "when@prod"?: array<string, RouteConfig|ImportConfig|AliasConfig>,

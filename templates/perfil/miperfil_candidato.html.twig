@@ -4,16 +4,150 @@
 
 {% block body %}
     {{ render(controller('App\\Controller\\NavController::component')) }}
-<div class="container">
-    <h4 class="mb-4"> {{ perfil.nombre }} </h4>
-    <div class="card">
-        <div class="card-body">
-        <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
-        <p class="card-text"><strong>Teléfono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
-        {% if perfil.cvPdf %}
-            <p class="card-text"> <strong>Cv: </strong> {{ perfil.cvPdf }} </p>
-        {% endif%}
+    {% set fotoPerfil = perfil.usuario.fotoPerfil is not empty ? asset(perfil.usuario.fotoPerfil) : asset('images/defaultProfile.jpg')%}
+    
+    <div class="container mt-4">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mt-3">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger mt-3">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="card">
+            <div class="card-header text-center">
+                <img src="{{fotoPerfil}}" class="rounded-circle mt-2" style="width: 80px; height: 80px; object-fit: cover">
+                <h3 class="mt-2"> {{ perfil.nombre }} </h3>
+
+                <div class="d-flex justify-content-center gap-2 mt3 flex-wrap">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarDatos">Editar Datos</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarFoto">Cambiar Foto</button>
+
+                    <form method="POST" action="{{ path('app_editarPerfil') }}">
+                        <input type="hidden" name="form_tipo" value="foto">
+                        <input type="hidden" name="accion" value="eliminar">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar foto</button>
+                    </form>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <p class="card-text"><strong>Titulo: </strong> {{ perfil.titulo ?: 'No indicado'}} </p>
+                <p class="card-text"><strong>Descripcion: </strong> {{ perfil.descripcion ?: 'No indicada'}} </p>
+                <p class="card-text"><strong>Ciudad: </strong> {{ perfil.ciudad ?: 'No indicada'}} </p>
+                <p class="card-text"><strong>Teléfono: </strong> {{ perfil.telefono ?: 'No indicado'}} </p>
+                <p class="card-text"><strong>CV público: </strong> {{ perfil.cvPublico ? 'Sí' : 'No' }} </p>
+
+                {% if perfil.cvPdf %}
+                    <p class="card-text"><strong>CV:</strong>
+                        <a href="{{ path('app_verMiCv') }}" class="btn btn-outline-primary btn-sm ms-2" target="_blank">Ver CV</a>
+                    </p>
+                {% else %}
+                    <p class="card-text"><strong>CV:</strong> No subido</p>
+                {% endif%}
+            </div>
+        </div>
+
+        {% if solicitudesRecibidas is not empty %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    Solicitudes de acceso al CV
+                </div>
+                <div class="card-body">
+                    {% for solicitud in solicitudesRecibidas %}
+                        <div class="border rounded p-3 mb-3">
+                            <p><strong>Solicitante: </strong> {{ solicitud.usuarioSolicitante.email }}</p>
+                            <p><strong>Estado: </strong> {{ solicitud.estado }}</p>
+                            <p><strong>Mensaje: </strong> {{ solicitud.mensaje ?: 'Sin mensaje' }}</p>
+                            {% if solicitud.estado === 'pendiente' %}
+                                <form method="POST" action="{{ path('app_responderSolicitudCv', {'id': solicitud.id, 'estado': 'aceptada'}) }}" class="d-inline">
+                                    <button type="submit" class="btn btn-success btn-sm">Aceptar</button>
+                                </form>
+                                <form method="POST" action="{{ path('app_responderSolicitudCv', {'id': solicitud.id, 'estado': 'rechazada'}) }}" class="d-inline">
+                                    <button type="submit" class="btn btn-success btn-sm">Rechazar</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="modal fade" id="modalEditarDatos" tabindex="-1" aria-labelledby="modalEditarDatosLabel" aria-hidden="true"> 
+        <div class="modal-dialog"> 
+            <div class="modal-content"> 
+                <form method="POST" action="{{ path('app_editarPerfil') }}" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-tittle" id="modalEditarDatosLabel">Editar perfil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="form_tipo" value="datos">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ perfil.nombre }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Titulo</label>
+                            <input type="text" name="titulo" id="titulo" class="form-control" value="{{ perfil.titulo }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripcion</label>
+                            <textarea name="descripcion" id="descripcion" class="form-control" rows="4">{{ perfil.descripcion }} </textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" name="telefono" id="telefono" class="form-control" value="{{ perfil.telefono }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ciudad" class="form-label">Ciudad</label>
+                            <input type="text" name="ciudad" id="ciudad" class="form-control" value="{{ perfil.ciudad }}">
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" name="cvPublico" id="cvPublico" class="form-control" value="1" {{ perfil.cvPublico ? 'checked' : '' }}>
+                            <label for="cvPublico" class="form-check-label">Hacer mi currículum público</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cvPdf" class="form-label">Currículum (PDF)</label>
+                            <input type="file" name="cvPdf" id="cvPdf" class="form-control" accept="application/pdf,.pdf">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+    <div class="modal fade" id="modalEditarFoto" tabindex="-1" aria-labelledby="modalEditarFotoLabel" aria-hidden="true"> 
+        <div class="modal-dialog">
+            <div class="modal-content"> 
+                <form method="POST" action="{{ path('app_editarPerfil') }}" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-tittle" id="modalEditarFotoLabel">Cambiar foto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="form_tipo" value="foto">
+                        <input type="hidden" name="accion" value="guardar">
+                        <div class="mb-3">
+                            <label for="nuevaFoto" class="form-label">Selecciona una imagen</label>
+                            <input type="file" name="nuevaFoto" id="nuevaFoto" class="form-control" accept="image/*" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
 {% endblock %}

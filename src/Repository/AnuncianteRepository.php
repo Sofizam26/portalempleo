@@ -12,5 +12,18 @@ class AnuncianteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Anunciante::class);
     }
+
+    public function buscarAnunciantesPorFiltro(string $filtro): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.nombre_anunciante LIKE :filtro 
+                OR a.descripcion LIKE :filtro
+                OR a.tipo LIKE :filtro
+                OR a.ciudad LIKE :filtro')
+            ->setParameter('filtro', '%' . $filtro . '%')
+            ->orderBy('a.nombre_anunciante', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
 ?>

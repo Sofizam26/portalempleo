@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Repository;
 
 class NavRepository
 {
-    public function obtenerItemsNav() : array
+    public function obtenerItemsNav(): array
     {
         return [
             [
@@ -18,6 +19,12 @@ class NavRepository
                 'route' => 'app_miperfil',
                 'icon' => 'user'
             ],
+            [
+                'id' => 'conversaciones',
+                'label' => 'Conversaciones',
+                'route' => 'lista_conversaciones',
+                'icon' => 'chat'
+            ]
             // [
             //     'id' => 'buscador',
             //     'label' => 'Buscador',
