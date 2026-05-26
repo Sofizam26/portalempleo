@@ -181,12 +181,20 @@ class PerfilController extends AbstractController
             throw new \LogicException('Estado no válido.');
         }
 
-        $solicitud->setEstado($estado);
+        if ($estado === 'rechazada') {
+            $em->remove($solicitud);
+            $em->flush();
+
+            $this->addFlash('success', 'Solicitud rechazada y eliminada correctamente.');
+            return $this->redirectToRoute('app_miperfil');
+        }
+
+        $solicitud->setEstado('aceptada');
         $solicitud->setFechaRespuesta(new \DateTime());
 
         $em->flush();
 
-        $this->addFlash('success', 'Solicitud actualizada correctamente.');
+        $this->addFlash('success', 'Solicitud aceptada correctamente.');
 
         return $this->redirectToRoute('app_miperfil');
     }

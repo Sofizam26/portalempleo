@@ -16,15 +16,15 @@ class Conversacion
     #[ORM\Column(name: "id_conversacion", type: "integer")]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Candidato::class)]
+    #[ORM\ManyToOne(inversedBy: 'conversaciones')]
     #[ORM\JoinColumn(name: "id_candidato", referencedColumnName: "id_candidato", nullable: false, onDelete: "CASCADE")]
-    private Candidato $candidato;
+    private ?Candidato $candidato = null;
 
-    #[ORM\ManyToOne(targetEntity: Anunciante::class)]
+    #[ORM\ManyToOne(inversedBy: 'conversaciones')]
     #[ORM\JoinColumn(name: "id_anunciante", referencedColumnName: "id_anunciante", nullable: false, onDelete: "CASCADE")]
-    private Anunciante $anunciante;
+    private ?Anunciante $anunciante = null;
 
-    #[ORM\ManyToOne(targetEntity: Oferta::class)]
+    #[ORM\ManyToOne(inversedBy: 'conversaciones')]
     #[ORM\JoinColumn(name: "id_oferta", referencedColumnName: "id_oferta", nullable: true, onDelete: "SET NULL")]
     private ?Oferta $oferta = null;
 
