@@ -93,6 +93,7 @@ class RegistroService
                 $candidato->setTelefono($pendiente->getTelefono());
                 $candidato->setCiudad($pendiente->getCiudad());
                 $candidato->setCvPdf($pendiente->getCvPdf());
+                $candidato->setCvPublico(false);
                 $this->em->persist($candidato);
             } else {
                 $anunciante = new Anunciante();
