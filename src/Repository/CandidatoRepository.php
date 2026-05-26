@@ -24,7 +24,11 @@ class CandidatoRepository extends ServiceEntityRepository
     public function buscarCandidatosPorFiltro(string $filtro): array
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.nombre LIKE :filtro OR c.ciudad LIKE :filtro')
+            ->andWhere('c.nombre LIKE :filtro
+                OR c.ciudad LIKE :filtro
+                OR c.telefono LIKE :filtro
+                OR c.titulo_profesional LIKE :filtro
+                OR c.descripcion LIKE :filtro')
             ->setParameter('filtro', '%' . $filtro . '%')
             ->orderBy('c.nombre', 'ASC')
             ->getQuery()
