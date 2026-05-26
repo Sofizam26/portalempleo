@@ -12,7 +12,7 @@ class BuscadorController extends AbstractController
     #[Route('/buscar', name: 'app_buscador')]
     public function buscar(Request $request, BuscadorService $buscadorService): Response
     {
-        $filtro = $request->query->get('q', '');
+        $filtro = $request->query->get('filtro', '');
         $resultados = $buscadorService->buscar($filtro);
 
         return $this->render('buscador/resultados.html.twig', [
