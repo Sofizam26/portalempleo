@@ -144,7 +144,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="tipo" class="form-label">Tipo de Empresa</label>
-                            <input type="text" name="tipo" id="tipo" class="form-control" value="{{ perfil.tipo }}" required>
+                            <select name="tipo" id="tipo" class="form-select" required>
+                                <option value="">Selecciona un tipo</option>
+                                <option value="Empresa" {{ perfil.tipo == 'Empresa' ? 'selected' : '' }}>Empresa</option>
+                                <option value="Particular" {{ perfil.tipo == 'Particular' ? 'selected' : '' }}>Particular</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="ciudad" class="form-label">Ciudad</label>

@@ -20,10 +20,6 @@ class HomeController extends AbstractController
         // Usuario logueado
         $usuario = $this->getUser();
 
-        if (!$usuario) {
-            return $this->redirectToRoute('ctrl_login');
-        }
-
         // Traer datos home de Usuario
         $datosHome = $homeService->obtenerDatosHome($usuario);
 

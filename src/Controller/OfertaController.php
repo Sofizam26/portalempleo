@@ -2,8 +2,8 @@
 namespace App\Controller;
 
 use App\Entity\Oferta;
-use App\Repository\OfertaRepository;
 use App\Service\OfertaService;
+use App\Repository\OfertaRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,10 +15,6 @@ class OfertaController extends AbstractController
     public function publicar(Request $request, OfertaService $ofertaService): Response
     {
         $usuario = $this->getUser();
-
-        if (!$usuario) {
-            return $this->redirectToRoute('ctrl_login');
-        }
 
         try {
             $oferta = new Oferta();
@@ -42,10 +38,6 @@ class OfertaController extends AbstractController
     {
         $usuario = $this->getUser();
 
-        if (!$usuario) {
-            return $this->redirectToRoute('ctrl_login');
-        }
-
         $oferta = $ofertaRepository->find($id);
 
         if (!$oferta) {
@@ -66,10 +58,6 @@ class OfertaController extends AbstractController
     public function eliminar(int $id, OfertaRepository $ofertaRepository, OfertaService $ofertaService): Response 
     {
         $usuario = $this->getUser();
-
-        if (!$usuario) {
-            return $this->redirectToRoute('ctrl_login');
-        }
 
         $oferta = $ofertaRepository->find($id);
 

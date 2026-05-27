@@ -138,10 +138,6 @@ class PerfilController extends AbstractController
     {
         $usuario = $this->getUser();
 
-        if (!$usuario instanceof Usuario) {
-            return $this->redirectToRoute('ctrl_login');
-        }
-
         $candidato = $candidatoRepository->find($id);
 
         if (!$candidato || !$candidato->getCvPdf()) {

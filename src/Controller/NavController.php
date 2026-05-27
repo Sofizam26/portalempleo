@@ -15,10 +15,6 @@ class NavController extends AbstractController
         $request = $requestStack->getCurrentRequest();
         $usuario = $this->getUser();
 
-        if (!$usuario) {
-            throw $this->createAccessDeniedException('Debes iniciar sesión.');
-        }
-
         $menu = $navService->obtenerMenu($usuario, $request?->attributes->get('_route'));
     
         return $this->render('components/_nav.html.twig', ['menu' => $menu]);
