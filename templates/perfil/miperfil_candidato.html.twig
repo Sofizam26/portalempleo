@@ -64,7 +64,7 @@
                             <p><strong>Solicitante: </strong> {{ solicitud.usuarioSolicitante.email }}</p>
                             <p><strong>Estado: </strong> {{ solicitud.estado }}</p>
                             <p><strong>Mensaje: </strong> {{ solicitud.mensaje ?: 'Sin mensaje' }}</p>
-                            {% if solicitud.estado === 'pendiente' %}
+                            {% if solicitud.estado == 'pendiente' %}
                                 <form method="POST" action="{{ path('app_responderSolicitudCv', {'id': solicitud.id, 'estado': 'aceptada'}) }}" class="d-inline">
                                     <button type="submit" class="btn btn-success btn-sm">Aceptar</button>
                                 </form>
