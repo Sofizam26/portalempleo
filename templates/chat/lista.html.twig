@@ -28,7 +28,7 @@
                         
                         <p class="mb-1 text-muted">
                             {% if conversacion.getUltimoMensaje() %}
-                                {{ conversacion.getUltimoMensaje().mensaje|slice(0, 50) }}...
+                                {{ conversacion.getUltimoMensaje().mensaje|slice(0, 50) }}
                             {% else %}
                                 Sin mensajes
                             {% endif %}
