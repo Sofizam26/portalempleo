@@ -16,7 +16,8 @@ class PerfilService
         private CandidatoRepository $candidatoRepository,
         private AnuncianteRepository $anuncianteRepository,
         private EntityManagerInterface $em
-    ) {}
+    ) {
+    }
 
     public function obtenerPerfil(Usuario $usuario): array
     {
@@ -34,11 +35,13 @@ class PerfilService
 
             return [
                 'vista' => 'perfil/miperfil_candidato.html.twig',
-                'parametros' => ['perfil' => $perfil,
-                                 'solicitudesRecibidas' => $solicitudesRecibidas]
+                'parametros' => [
+                    'perfil' => $perfil,
+                    'solicitudesRecibidas' => $solicitudesRecibidas
+                ]
             ];
         }
-        
+
         if ($usuario->getRol() === 'anunciante') {
             $perfil = $usuario->getAnunciante();
 
@@ -51,7 +54,7 @@ class PerfilService
                 'parametros' => [
                     'perfil' => $perfil,
                     'ofertas' => $perfil->getOfertas()
-                    ]
+                ]
             ];
         }
 
@@ -77,12 +80,14 @@ class PerfilService
 
         return [
             'vista' => 'perfil/candidato.html.twig',
-            'parametros' => ['perfil' => $perfil,
-                             'solicitudCv' => $solicitudCv,
-                             'usuarioActual' => $usuario]
+            'parametros' => [
+                'perfil' => $perfil,
+                'solicitudCv' => $solicitudCv,
+                'usuarioActual' => $usuario
+            ]
         ];
     }
-    
+
     public function obtenerPerfilAnunciante(int $id): array
     {
         $perfil = $this->anuncianteRepository->find($id);
@@ -96,7 +101,7 @@ class PerfilService
             'parametros' => [
                 'perfil' => $perfil,
                 'ofertas' => $perfil->getOfertas()
-                ]
+            ]
         ];
     }
 
@@ -112,18 +117,18 @@ class PerfilService
                 $this->em->flush();
                 return;
             }
-            
+
             if ($accion === 'guardar') {
                 $archivo = $request->files->get('nuevaFoto');
-                
+
                 if (!$archivo) {
                     throw new LogicException('No has seleccionado ninguna imagen.');
                 }
 
                 $mimeType = $archivo->getMimeType();
                 if (!str_starts_with((string) $mimeType, 'image/')) {
-                        throw new LogicException('El archivo debe de ser una imagen.');
-                    }
+                    throw new LogicException('El archivo debe de ser una imagen.');
+                }
 
                 $directorioRelativo = 'images/profiles/' . $usuario->getId();
                 $directorioAbsoluto = $projectDir . '/public/' . $directorioRelativo;
@@ -134,9 +139,9 @@ class PerfilService
 
                 $extension = $archivo->guessExtension() ?: 'jpg';
 
-                $nombreUsuario = $usuario->getRol() === 'candidato' 
-                ? $usuario->getCandidato()?->getNombre()
-                : $usuario->getAnunciante()?->getNombreAnunciante();
+                $nombreUsuario = $usuario->getRol() === 'candidato'
+                    ? $usuario->getCandidato()?->getNombre()
+                    : $usuario->getAnunciante()?->getNombreAnunciante();
                 $nombreUsuario = preg_replace('/[^A-Za-z0-9_-]/', '_', $nombreUsuario);
 
                 $nombreArchivo = 'perfil_' . $nombreUsuario . '.' . $extension;
@@ -168,7 +173,7 @@ class PerfilService
                 $perfil->setTitulo($request->request->get('titulo') ?: null);
                 $perfil->setDescripcion($request->request->get('descripcion') ?: null);
                 $perfil->setCvPublico((bool) $request->request->get('cvPublico'));
-                
+
                 $cv = $request->files->get('cvPdf');
 
                 if ($cv) {
@@ -189,7 +194,7 @@ class PerfilService
                     $nombreUsuario = $usuario->getCandidato()?->getNombre();
                     $nombreUsuario = preg_replace('/[^A-Za-z0-9_-]/', '_', $nombreUsuario);
 
-                    $nombreCv = 'curriculum_' . $nombreUsuario .'.pdf';
+                    $nombreCv = 'curriculum_' . $nombreUsuario . '.pdf';
 
                     $cv->move($directorioAbsoluto, $nombreCv);
                     $perfil->setCvPdf($directorioRelativo . '/' . $nombreCv);
