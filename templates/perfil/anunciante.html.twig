@@ -22,8 +22,10 @@
                         {{ perfil.sitioWeb }}
                     </a>
                 </p>
-                {%endif%}
+                {% endif %}
+                {% if app.user and app.user.rol != 'anunciante' %}
                 <a href="{{ path('iniciar_conversacion', {idUsuario: perfil.usuario.id}) }}" class="btn btn-primary">Conversa</a>
+                {% endif %}
             </div>
         </div>
         <hr>

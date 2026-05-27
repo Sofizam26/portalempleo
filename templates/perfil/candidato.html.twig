@@ -39,7 +39,9 @@
                         {% endif %}  
                     </div>  
                 {% endif %}
+                {% if usuarioActual and usuarioActual.rol != 'candidato' %}
                 <a href="{{ path('iniciar_conversacion', {idUsuario: perfil.usuario.id}) }}" class="btn btn-primary btn-sm mt-2">Conversa</a>
+                {% endif %}
             </div>
         </div>
     </div>
